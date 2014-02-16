@@ -23,7 +23,7 @@
   </target>
   
   <target name="run" depends="compile" description="run application" >
-        <java classname="App" fork="true">
+        <java classname="Application" fork="true">
           <classpath>
             <pathelement location="${build}"/>
           </classpath>
