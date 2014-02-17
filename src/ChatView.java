@@ -2,22 +2,28 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.text.*;
 
 public class ChatView extends JPanel
 {
-    protected JTextArea textArea;
+    protected JTextPane textPane;
+    protected StyleContext context;
+    protected StyledDocument doc;
+
     private final static String newline = "\n";
 
     ChatView( )
     {
-      //  super(new GridLayout(2, 1));
-        this.setLayout( new GridLayout(2, 1) );
-        textArea = new JTextArea(30, 20);
-        textArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textArea);
+        super(new GridLayout(1, 1));
+        context = new StyleContext( );
+        doc = new DefaultStyledDocument(context);
+        textPane = new JTextPane(doc);
+        textPane.setEditable(false);
+
+        JScrollPane scrollPane = new JScrollPane(textPane);
 
         //Add Components to this panel.
-        GridBagConstraints c = new GridBagConstraints();
+//        GridBagConstraints c = new GridBagConstraints();
       //  c.gridwidth = GridBagConstraints.REMAINDER;
     //    c.gridwidth = 500;
 
@@ -29,8 +35,8 @@ public class ChatView extends JPanel
         this.add(scrollPane);
     }
 
-    public JTextArea getTextArea( )
+    public JTextPane getTextPane( )
     {
-        return this.textArea;
+        return this.textPane;
     }
 }
