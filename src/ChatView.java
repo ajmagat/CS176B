@@ -4,39 +4,46 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
 
+/**
+ * This class represents the area where you view the conversation
+ */
 public class ChatView extends JPanel
 {
-    protected JTextPane textPane;
-    protected StyleContext context;
-    protected StyledDocument doc;
+    // Current conversation
+    protected ChatConvo m_currentConvo;
+
+    // Area to view current conversation 
+    protected JTextPane m_viewingPane;
 
     private final static String newline = "\n";
 
-    ChatView( )
-    {
+
+    /**
+     * Default Constructor
+     */
+    ChatView( ) {
         super(new GridLayout(1, 1));
-        context = new StyleContext( );
-        doc = new DefaultStyledDocument(context);
-        textPane = new JTextPane(doc);
-        textPane.setEditable(false);
+        m_viewingPane = new JTextPane();
+        m_viewingPane.setEditable(false);
 
-        JScrollPane scrollPane = new JScrollPane(textPane);
+        JScrollPane scrollPane = new JScrollPane(m_viewingPane);
 
-        //Add Components to this panel.
-//        GridBagConstraints c = new GridBagConstraints();
-      //  c.gridwidth = GridBagConstraints.REMAINDER;
-    //    c.gridwidth = 500;
-
-//        c.fill = GridBagConstraints.BOTH;
-      //  c.gridx = 0;
-      //  c.gridy = 0;
-      //  c.weightx = 1.0;
-      //  c.weighty = 1.0;
         this.add(scrollPane);
     }
 
-    public JTextPane getTextPane( )
-    {
-        return this.textPane;
+ 
+    /**
+     * Getter method to return tet
+     */
+    public JTextPane getTextPane( ) {
+        return this.m_viewingPane;
     }
+
+    /**
+     * Setter method to set current conversation
+     */
+    public void setChatConvo(ChatConvo chatConvo) {
+        m_currentConvo = chatConvo;
+        m_viewingPane.setDocument(m_currentConvo.getChatConvo());
+    }    
 }

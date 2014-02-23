@@ -9,39 +9,41 @@ import javax.swing.JComboBox;
 import java.awt.TextArea;
 import java.awt.TextField;
 import javax.swing.JTextField;
+import javax.swing.text.*;
+
+
+/**
+ * This represents the overall chat applications
+ */
 
 public class ChatRoom extends JFrame
 {
     private static final int NUM_PIXELS = 600;
- //
+
+   // Create the objects of this chat
    private ChatView newView = new ChatView( );
    private ChatBox newBox = new ChatBox(newView);
+   private ChatOptions colorOptions = new ChatOptions("Color");
+   private ChatOptions sizeOptions = new ChatOptions("Size");
 
-    // Default Constructor
+    /**
+     * Default Constructor
+     */
     ChatRoom( )
     {
-   // 	newView.getTextArea().setBounds(1, 1, 432, 450);
-  //  	newView.textArea.setBounds(1, 1, 432, 450);
-  //  	newView.setLayout(null);
+        // Set some box related stuff
         setTitle( "ChatRoom" );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        
-      //  imageJPanel.setModelJPanel( modelJPanel );
-                
-       // add( newView, BorderLayout.NORTH );
-       // add( newBox, BorderLayout.SOUTH );
-        
         setSize( NUM_PIXELS, NUM_PIXELS );
-        
-        JTextPane textPane = new JTextPane();
-        
-        JTextArea textArea = new JTextArea();
         
         JButton btnSubmit = new JButton("Submit");
         
-        JComboBox comboBox = new JComboBox();
-        
-        JComboBox comboBox_1 = new JComboBox();
+        // ChatBox should be uneditable for now
+        // newBox.turnOff();
+
+        /*************************************************/
+        /* GUI layout stuff. Probably should never touch */
+        /*************************************************/ 
         GroupLayout groupLayout = new GroupLayout(getContentPane());
         groupLayout.setHorizontalGroup(
         	groupLayout.createParallelGroup(Alignment.LEADING)
@@ -52,9 +54,9 @@ public class ChatRoom extends JFrame
         			.addComponent(btnSubmit, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
         			.addGap(22))
         		.addGroup(groupLayout.createSequentialGroup()
-        			.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+        			.addComponent(colorOptions, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.UNRELATED)
-        			.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
+        			.addComponent(sizeOptions, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
         			.addGap(333))
         );
         groupLayout.setVerticalGroup(
@@ -63,8 +65,8 @@ public class ChatRoom extends JFrame
         			.addComponent(newView, GroupLayout.PREFERRED_SIZE, 322, GroupLayout.PREFERRED_SIZE)
         			.addGap(25)
         			.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(colorOptions, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(sizeOptions, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
         				.addGroup(groupLayout.createSequentialGroup()
         					.addGap(29)
@@ -76,5 +78,19 @@ public class ChatRoom extends JFrame
         );
         getContentPane().setLayout(groupLayout);
         setVisible( true );
+
+        ChatConvo newConvo = new ChatConvo();
+        switchConversation(newConvo);
+    }
+
+    /**
+     * Method that will switch to a conversation between two or more people
+     */ 
+    public void switchConversation(ChatConvo newConvo) 
+    {
+        newView.setChatConvo(newConvo);
+        newBox.setChatConvo(newConvo);
+        colorOptions.setChatConvo(newConvo);
+        sizeOptions.setChatConvo(newConvo);
     }
 }
