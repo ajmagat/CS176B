@@ -7,6 +7,9 @@ public class ChatOptions extends JPanel implements ActionListener {
 	// The conversation currently associated with this ChatOption
 	protected ChatConvo m_currentConvo;
 
+	// The chat box area associated with this ChatOption
+	protected ChatBox m_chatBox;
+
 	// The combo box of this ChatOption
 	protected JComboBox m_comboBox;
 
@@ -26,28 +29,34 @@ public class ChatOptions extends JPanel implements ActionListener {
     ChatOptions() 
     {
     	m_comboBox = new JComboBox();
+    	m_currentConvo = null;
+    	m_comboBox = null;
     }
 
 
     /**
      * Constructor that takes in a type
      */
-	ChatOptions(String boxType) 
+	ChatOptions(String boxType, ChatBox newChatBox) 
 	{
         super(new GridLayout(1, 1));
 
 		// Initialize combo box based on type
-		if(boxType.equals("Color")) {
+		if(boxType.equals("Color")) 
+		{
 			m_comboBox = new JComboBox(colorStrings);
 			m_boxType = boxType;
 		}
 
-		if(boxType.equals("Size")) {
+		if(boxType.equals("Size")) 
+		{
 			m_comboBox = new JComboBox(textStrings);
 			m_comboBox.setSelectedIndex(2);
 			m_boxType = boxType;
 		}
 
+		m_chatBox = newChatBox; 
+		m_comboBox.addActionListener(this);
 		this.add(m_comboBox);
 	}
 
@@ -67,7 +76,15 @@ public class ChatOptions extends JPanel implements ActionListener {
     	JComboBox cb = (JComboBox)e.getSource();
     	String chosenValue = (String)cb.getSelectedItem();
 
+    	if(m_boxType.equals("Color"))
+    	{
+    		m_chatBox.setTextColor(chosenValue);
+    	}
 
+    	if(m_boxType.equals("Size"))
+    	{
+    		m_chatBox.setTextSize(chosenValue);
+    	}
     }
 
 }

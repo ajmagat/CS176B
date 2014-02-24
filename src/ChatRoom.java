@@ -23,8 +23,8 @@ public class ChatRoom extends JFrame
    // Create the objects of this chat
    private ChatView newView = new ChatView( );
    private ChatBox newBox = new ChatBox(newView);
-   private ChatOptions colorOptions = new ChatOptions("Color");
-   private ChatOptions sizeOptions = new ChatOptions("Size");
+   private ChatOptions colorOptions = new ChatOptions("Color", newBox);
+   private ChatOptions sizeOptions = new ChatOptions("Size", newBox);
 
     /**
      * Default Constructor
