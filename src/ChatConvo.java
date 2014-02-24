@@ -52,19 +52,5 @@ public class ChatConvo {
     public StyledDocument getChatConvo()
     {
     	return m_chatConvo;
-    }
-
-
-    /**
-     * Method to set color 
-     */
-    /**
-     * Method to set
-     */
-    /**
-     * Method to set
-     */
-    /**
-     * Method to set
-     */              
+    }            
 }

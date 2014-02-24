@@ -3,10 +3,13 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
 
+// Some code from http://stackoverflow.com/questions/2162170/jtextarea-new-line-on-shift-enter
+
 /**
  * This class represents the text input area.
  */
-public class ChatBox extends JPanel implements FocusListener {
+public class ChatBox extends JPanel
+{
     // Conversation text parameters
     private Color m_color;
     private int m_textSize;
@@ -22,7 +25,12 @@ public class ChatBox extends JPanel implements FocusListener {
     // Current conversation
     protected ChatConvo m_currentConvo;
 
-    private final static String newline = "\n";
+    // Attached submit button
+    protected ChatSubmit m_submitBtn;
+
+    private static final String TEXT_SUBMIT = "text-submit";
+    private static final String INSERT_BREAK = "insert-break";
+    private static final String newline = "\n";
 
 
     /** 
@@ -30,6 +38,15 @@ public class ChatBox extends JPanel implements FocusListener {
      */
     ChatBox() 
     {
+        // Set Layout
+        super(new GridLayout(1, 1));
+
+        // Create input area
+        m_inputArea = new JTextPane();
+        JScrollPane scrollPane = new JScrollPane(m_inputArea);
+        this.add(scrollPane);        
+
+        // Initialize parameters
         m_color = Color.BLACK;
         m_textSize = 12;
         m_italic = false;
@@ -47,15 +64,32 @@ public class ChatBox extends JPanel implements FocusListener {
 
         // Create input area
         m_inputArea = new JTextPane();
-        m_inputArea.setEditable(true);
-        m_inputArea.addFocusListener(this);      
+        m_inputArea.setEditable(true);   
         JScrollPane scrollPane = new JScrollPane(m_inputArea);
         this.add(scrollPane);
+
+        /****************************************************************/
+        // This code from
+        // http://stackoverflow.com/questions/2162170/jtextarea-new-line-on-shift-enter
+        InputMap input = m_inputArea.getInputMap();
+        KeyStroke enter = KeyStroke.getKeyStroke("ENTER");
+        KeyStroke shiftEnter = KeyStroke.getKeyStroke("shift ENTER");
+        input.put(shiftEnter, INSERT_BREAK); 
+        input.put(enter, TEXT_SUBMIT);
+
+        ActionMap actions = m_inputArea.getActionMap();
+        actions.put(TEXT_SUBMIT, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                m_submitBtn.doClick();
+            }
+        });
+        /****************************************************************/
 
         // Add a text view
         this.m_textView = newView.getTextPane();
 
-        // Set parameters
+        // Initialize parameters
         m_color = Color.BLACK;
         m_textSize = 12;
         m_italic = false;
@@ -88,6 +122,16 @@ public class ChatBox extends JPanel implements FocusListener {
     {
         m_inputArea.setEditable(false);
     }
+
+
+    /**
+     * Method to attach submit button
+     */
+    public void attachBtn(ChatSubmit newBtn)
+    {
+        m_submitBtn = newBtn;
+    }
+
 
     /**
      * Setter method to set text color
@@ -140,10 +184,12 @@ public class ChatBox extends JPanel implements FocusListener {
             m_color = Color.GREEN;
         }        
 
+        // Set text color for input area
         SimpleAttributeSet newAttr = new SimpleAttributeSet();        
         StyleConstants.setForeground(newAttr, m_color);
         m_inputArea.setCharacterAttributes(newAttr, false);          
     }
+
 
     /**
      * Setter method to set text size
@@ -152,10 +198,12 @@ public class ChatBox extends JPanel implements FocusListener {
     {
         m_textSize = Integer.parseInt(textSize);
 
+        // Set text size for input area
         SimpleAttributeSet newAttr = new SimpleAttributeSet();        
         StyleConstants.setFontSize(newAttr, m_textSize);
         m_inputArea.setCharacterAttributes(newAttr, false);                
     }
+
 
     /**
      * Setter method to set text style
@@ -165,14 +213,19 @@ public class ChatBox extends JPanel implements FocusListener {
         m_bold = bold;
         m_italic = italic;
 
+        // Set bold/italic for input area
         SimpleAttributeSet newAttr = new SimpleAttributeSet();
         StyleConstants.setBold(newAttr, m_bold);
         StyleConstants.setItalic(newAttr, m_italic);
         m_inputArea.setCharacterAttributes(newAttr, false);
     }
 
-    @Override
-    public void focusLost(FocusEvent evt) {
+
+    /**
+     * Method to submit text from input area
+     */
+    public void submitInputText()
+    {
         // Get text from text field 
         String text = m_inputArea.getText();
 
@@ -197,14 +250,6 @@ public class ChatBox extends JPanel implements FocusListener {
         }
 
         // Clear text
-        m_inputArea.setText("");
+        m_inputArea.setText("");        
     }
-
-
-    @Override
-    public void focusGained(FocusEvent evt) 
-    {
-    }
-
 }
-

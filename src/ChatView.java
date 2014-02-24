@@ -15,19 +15,19 @@ public class ChatView extends JPanel
     // Area to view current conversation 
     protected JTextPane m_viewingPane;
 
-    private final static String newline = "\n";
-
 
     /**
      * Default Constructor
      */
-    ChatView( ) {
+    ChatView( ) 
+    {
+        // Set layout
         super(new GridLayout(1, 1));
+
+        // Create chat view
         m_viewingPane = new JTextPane();
         m_viewingPane.setEditable(false);
-
         JScrollPane scrollPane = new JScrollPane(m_viewingPane);
-
         this.add(scrollPane);
     }
 
@@ -35,14 +35,17 @@ public class ChatView extends JPanel
     /**
      * Getter method to return tet
      */
-    public JTextPane getTextPane( ) {
+    public JTextPane getTextPane( ) 
+    {
         return this.m_viewingPane;
     }
+
 
     /**
      * Setter method to set current conversation
      */
-    public void setChatConvo(ChatConvo chatConvo) {
+    public void setChatConvo(ChatConvo chatConvo) 
+    {
         m_currentConvo = chatConvo;
         m_viewingPane.setDocument(m_currentConvo.getChatConvo());
     }    

@@ -25,6 +25,7 @@ public class ChatRoom extends JFrame
    private ChatBox newBox = new ChatBox(newView);
    private ChatOptions colorOptions = new ChatOptions("Color", newBox);
    private ChatOptions sizeOptions = new ChatOptions("Size", newBox);
+   private ChatSubmit btnSubmit = new ChatSubmit(newBox);
 
     /**
      * Default Constructor
@@ -36,8 +37,8 @@ public class ChatRoom extends JFrame
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize( NUM_PIXELS, NUM_PIXELS );
         
-        JButton btnSubmit = new JButton("Submit");
-        
+        newBox.attachBtn(btnSubmit);
+
         // ChatBox should be uneditable for now
         // newBox.turnOff();
 
@@ -78,9 +79,10 @@ public class ChatRoom extends JFrame
         );
         getContentPane().setLayout(groupLayout);
         setVisible( true );
-
+        this.getRootPane().setDefaultButton(btnSubmit.getButton());
         ChatConvo newConvo = new ChatConvo();
         switchConversation(newConvo);
+
     }
 
     /**
