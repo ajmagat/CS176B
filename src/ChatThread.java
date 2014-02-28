@@ -52,47 +52,45 @@ public class ChatThread extends Thread
 			}
 */
 			while(true)
-			{
-System.out.println("AM I HERE");				
+			{			
 				// Wait for message type byte
 				byte [] msgType = new byte[1];
 				m_inStream.readFully(msgType);
 	            String str = new String(msgType, "UTF-8");
-System.out.println("HOW asdfasfas");
+
 	            // Broadcast message
 	            if(str.equals("1"))
 	            {
-System.out.println("GETTING THE MESSAGE1");
+
 	            	// Get the text parameters for this object
 	            	byte[] textParams = new byte[5];	            	
 	            	m_inStream.readFully(textParams);
-System.out.println("GETTING THE MESSAGE2 " + textParams.length);	            	
+	            	
 	            	// Get size of message
 	            	byte[] msgSize = new byte[10];
 	            	m_inStream.readFully(msgSize);
-System.out.println("GETTING THE MESSAGE3");	     	            	
+    	            	
 	            	String sizeStr = new String(msgSize, "UTF-8");
 	            	int sizeInt = Integer.parseInt(sizeStr);
-System.out.println("GETTING MESSAGE3.5 " + sizeInt);
+
 	            	// Get message
 	            	byte[] msg = new byte[sizeInt];
 	            	m_inStream.readFully(msg);
-System.out.println("GETTING THE MESSAGE4");	     
+     
 	            	
 	            	// Create message type byte
 	            	String serverMsgType = "11";
 	                byte[] serverMsgByte = serverMsgType.getBytes("UTF-8"); 
-System.out.println("GETTING THE MESSAGE5");	    	            	
+   	            	
 	            	byte[] fullMessage = createMessage(serverMsgByte, textParams, msgSize, msg);
 	            	
 					// all the talking
 					synchronized (this)
 					{
-System.out.println("DO I GET IN HERE");
 						m_connections = m_server.getThreads();
 						for(int c = 0; c < m_connections.length; c++)
 						{
-System.out.println("TRYING TO SEND STUFF");							
+System.out.println("TRYING TO SEND TO CONNECTION #" + c);							
 							if(m_connections[c] != null && m_connections[c] != this)
 							{
 System.out.println("AYE SENDING SHIT");
@@ -119,23 +117,14 @@ System.out.println("AYE SENDING SHIT");
 	 */
 	private byte[] createMessage(byte[] msgByte, byte[] textParams, byte[] msgSize, byte[] msg)
 	{
-System.out.println("in create message");
-		int lenMsg = msg.length;
-System.out.println("message lenght " + lenMsg);		
-		byte[] fullMsg = new byte[1 + 5 + 10 + lenMsg];
+		int lenMsg = msg.length;	
+		byte[] fullMsg = new byte[2 + 5 + 10 + lenMsg];
 		
-		System.arraycopy(msgByte, 0, fullMsg, 0, 1);
-		System.out.println("in create message 1");
-		System.arraycopy(textParams, 0, fullMsg, 1, 5);
+		System.arraycopy(msgByte, 0, fullMsg, 0, 2);
+		System.arraycopy(textParams, 0, fullMsg, 2, 5);
+		System.arraycopy(msgSize, 0, fullMsg, 7, 10);
+		System.arraycopy(msg, 0, fullMsg, 17, lenMsg);
 		
-		
-		
-		System.out.println("in create message 2");
-		
-		System.arraycopy(msgSize, 0, fullMsg, 6, 10);
-		System.out.println("in create message 3");
-		System.arraycopy(msg, 0, fullMsg, 16, lenMsg);
-System.out.println("Leaving create message");
 		return fullMsg;
 	}
 }

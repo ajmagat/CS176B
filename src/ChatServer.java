@@ -72,7 +72,6 @@ public class ChatServer
 			{
 				// Wait for a connection and except
 				s = m_serverSock.accept();
-System.out.println("NEW CONNECTION");
 				// Check if there are already to many connections to server
 				if(connection_count >= MAX_CONNECTIONS)
 				{
@@ -83,11 +82,11 @@ System.out.println("NEW CONNECTION");
 
 				}
 				else
-				{
-System.out.println("WHY");					
-					ChatThread conn_thread = new ChatThread(s, m_connections, this);					
+				{	
+					ChatThread conn_thread = new ChatThread(s, m_connections, this);	
+System.out.println("1 NEW CONNECTION #" + connection_count);
 					m_connections[connection_count] = conn_thread;
-System.out.println("WHY MADE CHANGE 8");					
+					connection_count++;				
 					conn_thread.start();					
 				}
 			}

@@ -38,58 +38,62 @@ public class ChatServerListener implements Runnable
     {
     	try
     	{
-    		// Wait for message type byte
-    		byte msgType = m_inStream.readByte();
-        	String str = new String(new byte[] { msgType }, "UTF-8");
-        	
-        	
-            // Receiving message
-            if(str.equals("11"))
-            {
-            	// Get the text parameters for this object
-            	byte[] textParams = new byte[5];	            	
-            	m_inStream.readFully(textParams);
-            	
-            	
-            	String params = new String(textParams, "UTF-8");
-            	
-            	boolean italic = false;
-            	if((params.substring(0, 1)).equals("1"))
+    		while(true)
+    		{
+    			
+    		
+    			// Wait for message type byte
+    			byte [] msgType = new byte[2];
+    			m_inStream.readFully(msgType);
+    			String str = new String( msgType, "UTF-8");
+System.out.println("The type is " + str);
+            	// Receiving message
+            	if(str.equals("11"))
             	{
-            		italic = true;
-            	}
+            		// Get the text parameters for this object
+            		byte[] textParams = new byte[5];	            	
+            		m_inStream.readFully(textParams);
             	
-            	boolean bold = false;
-            	if((params.substring(1, 2)).equals("1"))
-            	{
-            		bold = true;
-            	}            	
             	
-            	Color color = getColorFromCode((params.substring(2, 3)));
+            		String params = new String(textParams, "UTF-8");
+            	
+            		boolean italic = false;
+            		if((params.substring(0, 1)).equals("1"))
+            		{
+            			italic = true;
+            		}
+            	
+            		boolean bold = false;
+            		if((params.substring(1, 2)).equals("1"))
+            		{
+            			bold = true;
+            		}            	
+            	
+            		Color color = getColorFromCode((params.substring(2, 3)));
        	        
-            	int textSize = Integer.parseInt(params.substring(3, 5));
+            		int textSize = Integer.parseInt(params.substring(3, 5));
             	
-            	// Get size of message
-            	byte[] msgSize = new byte[10];
-            	m_inStream.readFully(msgSize);
-            	String sizeStr = new String(msgSize, "UTF-8");
-            	int sizeInt = Integer.parseInt(sizeStr);
+            		// Get size of message
+            		byte[] msgSize = new byte[10];
+            		m_inStream.readFully(msgSize);
+            		String sizeStr = new String(msgSize, "UTF-8");
+            		int sizeInt = Integer.parseInt(sizeStr);
             	
-            	// Get message
-            	byte[] msg = new byte[sizeInt];
-            	m_inStream.readFully(msg);
+            		// Get message
+            		byte[] msg = new byte[sizeInt];
+            		m_inStream.readFully(msg);
             	
-            	String finalMsg = new String(msg, "UTF-8");
+            		String finalMsg = new String(msg, "UTF-8");
             	
-                // Set attributes
-                SimpleAttributeSet viewAttr = new SimpleAttributeSet();
-                StyleConstants.setBold(viewAttr, bold);
-                StyleConstants.setItalic(viewAttr, italic);
-                StyleConstants.setForeground(viewAttr, color);
-                StyleConstants.setFontSize(viewAttr, textSize);
+            		// Set attributes
+            		SimpleAttributeSet viewAttr = new SimpleAttributeSet();
+            		StyleConstants.setBold(viewAttr, bold);
+            		StyleConstants.setItalic(viewAttr, italic);
+            		StyleConstants.setForeground(viewAttr, color);
+            		StyleConstants.setFontSize(viewAttr, textSize);
                 
-                m_chatConvo.insertString(m_chatConvo.getLength(), finalMsg, viewAttr);
-            	         
+            		m_chatConvo.insertString(m_chatConvo.getLength(), finalMsg, viewAttr);
+            }
             		            	
             }			
     	}
