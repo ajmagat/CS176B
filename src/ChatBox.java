@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
-import java.io.*;
+
 
 // Some code from http://stackoverflow.com/questions/2162170/jtextarea-new-line-on-shift-enter
 
@@ -13,6 +13,7 @@ public class ChatBox extends JPanel
 {
     // Conversation text parameters
     private Color m_color;
+    private String m_colorStr;
     private int m_textSize;
     private boolean m_italic;
     private boolean m_bold;
@@ -49,6 +50,7 @@ public class ChatBox extends JPanel
 
         // Initialize parameters
         m_color = Color.BLACK;
+        m_colorStr = "Black";
         m_textSize = 12;
         m_italic = false;
         m_bold = false;
@@ -92,6 +94,7 @@ public class ChatBox extends JPanel
 
         // Initialize parameters
         m_color = Color.BLACK;
+        m_colorStr = "Black";
         m_textSize = 12;
         m_italic = false;
         m_bold = false;        
@@ -142,47 +145,56 @@ public class ChatBox extends JPanel
         if(color.equals("Black"))
         {
             m_color = Color.BLACK;
+            m_colorStr = "Black";
         }
 
         // NEEDS A COLOR
         if(color.equals("Purple"))
         {
             m_color = Color.MAGENTA;
+            m_colorStr = "Purple";
         }
 
         if(color.equals("White"))
         {
             m_color = Color.WHITE;
+            m_colorStr = "White";
         }
 
         if(color.equals("Red"))
         {
             m_color = Color.RED;
+            m_colorStr = "Red";
         }
 
         if(color.equals("Blue"))
         {
             m_color = Color.BLUE;
+            m_colorStr = "Blue";
         }        
 
         if(color.equals("Yellow"))
         {
             m_color = Color.YELLOW;
+            m_colorStr = "Yellow";
         }
 
         if(color.equals("Pink"))
         {
             m_color = Color.PINK;
+            m_colorStr = "Pink";
         }        
 
         if(color.equals("Orange"))
         {
             m_color = Color.ORANGE;
+            m_colorStr = "Orange";
         }
 
         if(color.equals("Green"))
         {
             m_color = Color.GREEN;
+            m_colorStr = "Green";
         }        
 
         // Set text color for input area
@@ -276,7 +288,7 @@ public class ChatBox extends JPanel
         // Create message header in bytes
         String msgHeaderStr = msgHeader.toString();
 
-        m_currentConvo.sendMessage(msgHeaderStr, text); 
+        m_currentConvo.sendMessage(msgHeaderStr, text + newline); 
 
         // Insert the text into the client's viewing area
         try 
@@ -315,48 +327,48 @@ public class ChatBox extends JPanel
      */
     private String getColorByte()
     {
-        if(m_color.equals("Black"))
+        if(m_colorStr.equals("Black"))
         {
             return "0";
         }
 
         // NEEDS A m_COLOR
-        if(m_color.equals("Purple"))
+        if(m_colorStr.equals("Purple"))
         {
             return "1";
         }
 
-        if(m_color.equals("White"))
+        if(m_colorStr.equals("White"))
         {
             return "2";
         }
 
-        if(m_color.equals("Red"))
+        if(m_colorStr.equals("Red"))
         {
             return "3";
         }
 
-        if(m_color.equals("Blue"))
+        if(m_colorStr.equals("Blue"))
         {
             return "4";
         }        
 
-        if(m_color.equals("Yellow"))
+        if(m_colorStr.equals("Yellow"))
         {
             return "5";
         }
 
-        if(m_color.equals("Pink"))
+        if(m_colorStr.equals("Pink"))
         {
             return "6";
         }        
 
-        if(m_color.equals("Orange"))
+        if(m_colorStr.equals("Orange"))
         {
             return "7";
         }
 
-        if(m_color.equals("Green"))
+        if(m_colorStr.equals("Green"))
         {
             return "8";
         } 

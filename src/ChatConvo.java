@@ -34,7 +34,7 @@ public class ChatConvo
 	}
 
     /**
-     * Constructor that takes in two parctipants WIP
+     * Constructor that takes in two participants WIP
      */
     // ChatConvo(two people)
 
@@ -78,20 +78,23 @@ public class ChatConvo
      */
     public void sendMessage(String header, String message)
     {
- 
+    	// Split up the message according to self defined protocol (10 byte length limit)
         String[] messages = splitMessage(message);
 
+        // Create string builder to hold the message
         StringBuilder messageBuilder = new StringBuilder();
 
-        messageBuilder.append(header);
-
+        // Create message
         for(int i = 0; i < messages.length; i++)
         {
+            messageBuilder.append(header);        	
             messageBuilder.append(messages[i]);
         }
 
+        // Make the message a string
         String msgStr = messageBuilder.toString();
 
+        // Turn string into a byte array and send
         try
         {
             byte[] msgBytes = msgStr.getBytes("UTF-8"); 

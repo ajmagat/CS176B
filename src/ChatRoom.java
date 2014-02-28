@@ -1,18 +1,10 @@
 import javax.swing.JFrame;
-import javax.swing.JTextPane;
-import javax.swing.JTextArea;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import java.awt.TextArea;
-import java.awt.TextField;
-import javax.swing.JTextField;
-import javax.swing.text.*;
 import java.io.*;
-import java.awt.Checkbox;
 import javax.swing.JCheckBox;
+import java.net.*;
 
 
 /**
@@ -103,13 +95,16 @@ public class ChatRoom extends JFrame
 
         this.getRootPane().setDefaultButton(btnSubmit.getButton());
 
-        ChatConvo newConvo = new ChatConvo();
-        switchConversation(newConvo);
 
-        String test = "555";
 
         try
         {
+            ChatConvo newConvo = new ChatConvo(InetAddress.getLocalHost().getHostName(), 5555);
+        //	ChatConvo newConvo = new ChatConvo();
+            switchConversation(newConvo);
+
+            String test = "555";
+
             final byte[] inBytes = test.getBytes("UTF-8");
                     System.out.println("Size in bytes " + inBytes.length);
             for(byte b : inBytes)
@@ -118,8 +113,6 @@ public class ChatRoom extends JFrame
             }
             String str = new String(inBytes, "UTF-8");
             System.out.println("Bytes back to string: " + str);
-
-
         }
         catch (IOException e)
         {
