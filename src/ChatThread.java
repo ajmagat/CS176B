@@ -24,7 +24,7 @@ public class ChatThread extends Thread
 		{
 			m_clientSock = clientSock;
 			m_outStream = new DataOutputStream(m_clientSock.getOutputStream());
-			m_inStream = new DataInputStream(m_clientSock.getInputStream());
+			m_inStream = new DataInputStream(m_clientSock.getInputStream());	
 		}
 		catch (IOException e)
 		{
@@ -50,26 +50,31 @@ public class ChatThread extends Thread
 */
 			while(true)
 			{
+System.out.println("AM I HERE");				
 				// Wait for message type byte
-				byte msgType = m_inStream.readByte();
-	            String str = new String(new byte[] { msgType }, "UTF-8");
-
+				byte [] msgType = new byte[1];
+				m_inStream.readFully(msgType);
+	            String str = new String(msgType, "UTF-8");
+System.out.println("HOW asdfasfas");
 	            // Broadcast message
 	            if(str.equals("1"))
 	            {
+System.out.println("GETTING THE MESSAGE1");
 	            	// Get the text parameters for this object
-	            	byte[] textParams = new byte[4];	            	
+	            	byte[] textParams = new byte[5];	            	
 	            	m_inStream.readFully(textParams);
-	            	
+System.out.println("GETTING THE MESSAGE2 " + textParams);	            	
 	            	// Get size of message
 	            	byte[] msgSize = new byte[10];
 	            	m_inStream.readFully(msgSize);
+System.out.println("GETTING THE MESSAGE3");	     	            	
 	            	String sizeStr = new String(msgSize, "UTF-8");
 	            	int sizeInt = Integer.parseInt(sizeStr);
-	            	
+System.out.println("GETTING MESSAGE3.5 " + sizeInt);
 	            	// Get message
 	            	byte[] msg = new byte[sizeInt];
 	            	m_inStream.readFully(msg);
+System.out.println("GETTING THE MESSAGE4");	     
 	            	
 	            	// Create message type byte
 	            	String serverMsgType = "11";
@@ -82,10 +87,13 @@ public class ChatThread extends Thread
 					{
 						for(int c = 0; c < m_connections.length; c++)
 						{
+System.out.println("TRYING TO SEND STUFF");							
 							if(m_connections[c] != null && m_connections[c] != this)
 							{
+System.out.println("AYE SENDING SHIT");
 								// broadcast message
 								m_connections[c].m_outStream.write(fullMessage);
+
 							}
 						}
 					}		            	

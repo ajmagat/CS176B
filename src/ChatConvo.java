@@ -79,21 +79,24 @@ public class ChatConvo
     public void sendMessage(String header, String message)
     {
     	// Split up the message according to self defined protocol (10 byte length limit)
-        String[] messages = splitMessage(message);
+  //      String[] messages = splitMessage(message);
 
         // Create string builder to hold the message
         StringBuilder messageBuilder = new StringBuilder();
 
         // Create message
-        for(int i = 0; i < messages.length; i++)
-        {
+  //      for(int i = 0; i < messages.length; i++)
+  //      {
             messageBuilder.append(header);        	
-            messageBuilder.append(messages[i]);
-        }
+    //        messageBuilder.append(messages[i]);
+            messageBuilder.append(message);
+   //     }
 
         // Make the message a string
         String msgStr = messageBuilder.toString();
 
+System.out.println("MESSAGE TO BE SENT IN STR IS " + msgStr);
+        
         // Turn string into a byte array and send
         try
         {

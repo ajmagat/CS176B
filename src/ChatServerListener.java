@@ -47,7 +47,7 @@ public class ChatServerListener implements Runnable
             if(str.equals("11"))
             {
             	// Get the text parameters for this object
-            	byte[] textParams = new byte[4];	            	
+            	byte[] textParams = new byte[5];	            	
             	m_inStream.readFully(textParams);
             	
             	
@@ -67,7 +67,7 @@ public class ChatServerListener implements Runnable
             	
             	Color color = getColorFromCode((params.substring(2, 3)));
        	        
-            	int textSize = Integer.parseInt(params.substring(3, 4));
+            	int textSize = Integer.parseInt(params.substring(3, 5));
             	
             	// Get size of message
             	byte[] msgSize = new byte[10];

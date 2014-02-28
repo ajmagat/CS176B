@@ -240,7 +240,7 @@ public class ChatBox extends JPanel
     public void submitInputText()
     {
         // Get text from text field 
-        String text = m_inputArea.getText();
+        String text = m_inputArea.getText() + newline;
 
         // Get underlying document of the ChatView object
         StyledDocument doc = m_currentConvo.getChatConvo();
@@ -285,15 +285,28 @@ public class ChatBox extends JPanel
         // Size
         msgHeader.append(Integer.toString(m_textSize));
 
-        // Create message header in bytes
+        String msgSize = Integer.toString((text.length()));
+        
+        StringBuilder msgSizeBuilder = new StringBuilder();
+        
+        for(int j = 0; j < (10 - msgSize.length()); j++)
+        {
+        	msgSizeBuilder.append("0");
+        }
+        msgSizeBuilder.append(msgSize);
+        msgSize = msgSizeBuilder.toString();
+        
+        msgHeader.append(msgSize);
+        
+        // Create message header as string
         String msgHeaderStr = msgHeader.toString();
-
-        m_currentConvo.sendMessage(msgHeaderStr, text + newline); 
+System.out.println("I SAY SIZE IS " + msgSize);
+        m_currentConvo.sendMessage(msgHeaderStr, text); 
 
         // Insert the text into the client's viewing area
         try 
         {
-            doc.insertString(doc.getLength(), text + newline, viewAttr);
+            doc.insertString(doc.getLength(), text, viewAttr);
         }
         catch (Exception e)
         {

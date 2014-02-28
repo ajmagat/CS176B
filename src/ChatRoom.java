@@ -100,6 +100,7 @@ public class ChatRoom extends JFrame
         try
         {
             ChatConvo newConvo = new ChatConvo(InetAddress.getLocalHost().getHostName(), 5555);
+  System.out.println(InetAddress.getLocalHost().getHostName());
         //	ChatConvo newConvo = new ChatConvo();
             switchConversation(newConvo);
 
