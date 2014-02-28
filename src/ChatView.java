@@ -33,7 +33,7 @@ public class ChatView extends JPanel
 
  
     /**
-     * Getter method to return tet
+     * Getter method to return text
      */
     public JTextPane getTextPane( ) 
     {

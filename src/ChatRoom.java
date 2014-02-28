@@ -10,6 +10,7 @@ import java.awt.TextArea;
 import java.awt.TextField;
 import javax.swing.JTextField;
 import javax.swing.text.*;
+import java.io.*;
 
 
 /**
@@ -79,11 +80,37 @@ public class ChatRoom extends JFrame
         );
         getContentPane().setLayout(groupLayout);
         setVisible( true );
+        /*************************************************/ 
+
+
         this.getRootPane().setDefaultButton(btnSubmit.getButton());
+
         ChatConvo newConvo = new ChatConvo();
         switchConversation(newConvo);
 
+        String test = "555";
+
+        try
+        {
+            final byte[] inBytes = test.getBytes("UTF-8");
+                    System.out.println("Size in bytes " + inBytes.length);
+            for(byte b : inBytes)
+            {             
+                System.out.println("Byte: " + b);
+            }
+            String str = new String(inBytes, "UTF-8");
+            System.out.println("Bytes back to string: " + str);
+
+
+        }
+        catch (IOException e)
+        {
+            System.out.println(e);
+        }
+
+
     }
+
 
     /**
      * Method that will switch to a conversation between two or more people
@@ -92,7 +119,5 @@ public class ChatRoom extends JFrame
     {
         newView.setChatConvo(newConvo);
         newBox.setChatConvo(newConvo);
-        colorOptions.setChatConvo(newConvo);
-        sizeOptions.setChatConvo(newConvo);
     }
 }

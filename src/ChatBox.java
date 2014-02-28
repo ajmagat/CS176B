@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
+import java.io.*;
 
 // Some code from http://stackoverflow.com/questions/2162170/jtextarea-new-line-on-shift-enter
 
@@ -239,7 +240,45 @@ public class ChatBox extends JPanel
         StyleConstants.setForeground(viewAttr, m_color);
         StyleConstants.setFontSize(viewAttr, m_textSize);
 
-        // Insert the text into the document
+        // Create StringBuilder to hold entire message, including header
+        StringBuilder msgHeader = new StringBuilder();
+
+        // First byte, says message is to be broadcast
+        msgHeader.append("1");
+
+        // Decide value for next four bytes
+        // Italic
+        if(m_italic)
+        {
+            msgHeader.append("1");
+        }
+        else
+        {
+            msgHeader.append("0");
+        }
+
+        // Bold
+        if(m_bold)
+        {
+            msgHeader.append("1");
+        }
+        else
+        {
+            msgHeader.append("0");
+        }
+
+        // Color
+        msgHeader.append(getColorByte());
+
+        // Size
+        msgHeader.append(Integer.toString(m_textSize));
+
+        // Create message header in bytes
+        String msgHeaderStr = msgHeader.toString();
+
+        m_currentConvo.sendMessage(msgHeaderStr, text); 
+
+        // Insert the text into the client's viewing area
         try 
         {
             doc.insertString(doc.getLength(), text + newline, viewAttr);
@@ -249,7 +288,79 @@ public class ChatBox extends JPanel
             System.out.println(e);
         }
 
-        // Clear text
+        // Clear text from input area
         m_inputArea.setText("");        
+    }
+
+
+    /**
+     * Private helper method to combine two byte arrays
+     * http://stackoverflow.com/questions/80476/how-to-concatenate-two-arrays-in-java
+     */
+    private byte[] combineByteArrays(byte[] b1, byte[] b2)
+    {
+        int b1Len = b1.length;
+        int b2Len = b2.length;
+
+        byte[] newArray = new byte[b1Len + b2Len];
+        System.arraycopy(b1, 0, newArray, 0, b1Len);
+        System.arraycopy(b2, 0, newArray, b1Len, b2Len);
+
+        return newArray;
+    }
+
+
+    /**
+     * Private helper method to determine byte value for color
+     */
+    private String getColorByte()
+    {
+        if(m_color.equals("Black"))
+        {
+            return "0";
+        }
+
+        // NEEDS A m_COLOR
+        if(m_color.equals("Purple"))
+        {
+            return "1";
+        }
+
+        if(m_color.equals("White"))
+        {
+            return "2";
+        }
+
+        if(m_color.equals("Red"))
+        {
+            return "3";
+        }
+
+        if(m_color.equals("Blue"))
+        {
+            return "4";
+        }        
+
+        if(m_color.equals("Yellow"))
+        {
+            return "5";
+        }
+
+        if(m_color.equals("Pink"))
+        {
+            return "6";
+        }        
+
+        if(m_color.equals("Orange"))
+        {
+            return "7";
+        }
+
+        if(m_color.equals("Green"))
+        {
+            return "8";
+        } 
+
+        return "0";       
     }
 }

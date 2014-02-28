@@ -4,9 +4,6 @@ import javax.swing.*;
 import javax.swing.text.*;
 
 public class ChatOptions extends JPanel implements ActionListener {
-	// The conversation currently associated with this ChatOption
-	protected ChatConvo m_currentConvo;
-
 	// The chat box area associated with this ChatOption
 	protected ChatBox m_chatBox;
 
@@ -29,7 +26,6 @@ public class ChatOptions extends JPanel implements ActionListener {
     ChatOptions() 
     {
     	m_comboBox = new JComboBox();
-    	m_currentConvo = null;
     	m_comboBox = null;
     }
 
@@ -59,16 +55,6 @@ public class ChatOptions extends JPanel implements ActionListener {
 		m_comboBox.addActionListener(this);
 		this.add(m_comboBox);
 	}
-
-
-    /**
-     * Setter method to set current conversation
-     */
-    public void setChatConvo(ChatConvo chatConvo) 
-    {
-    	m_currentConvo = chatConvo;
-    }
-
     
     @Override
     public void actionPerformed(ActionEvent e) 
