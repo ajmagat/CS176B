@@ -11,6 +11,8 @@ import java.awt.TextField;
 import javax.swing.JTextField;
 import javax.swing.text.*;
 import java.io.*;
+import java.awt.Checkbox;
+import javax.swing.JCheckBox;
 
 
 /**
@@ -46,6 +48,10 @@ public class ChatRoom extends JFrame
         /*************************************************/
         /* GUI layout stuff. Probably should never touch */
         /*************************************************/ 
+        
+        JCheckBox chckbxItalic = new JCheckBox("Italic");
+        
+        JCheckBox chckbxBold = new JCheckBox("Bold");
         GroupLayout groupLayout = new GroupLayout(getContentPane());
         groupLayout.setHorizontalGroup(
         	groupLayout.createParallelGroup(Alignment.LEADING)
@@ -59,20 +65,32 @@ public class ChatRoom extends JFrame
         			.addComponent(colorOptions, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.UNRELATED)
         			.addComponent(sizeOptions, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-        			.addGap(333))
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(chckbxItalic)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(chckbxBold)
+        			.addGap(206))
         );
         groupLayout.setVerticalGroup(
         	groupLayout.createParallelGroup(Alignment.LEADING)
         		.addGroup(groupLayout.createSequentialGroup()
         			.addComponent(newView, GroupLayout.PREFERRED_SIZE, 322, GroupLayout.PREFERRED_SIZE)
-        			.addGap(25)
-        			.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(colorOptions, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(sizeOptions, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(groupLayout.createSequentialGroup()
+        					.addGap(25)
+        					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(colorOptions, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(sizeOptions, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+        				.addGroup(groupLayout.createSequentialGroup()
+        					.addGap(26)
+        					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(chckbxItalic)
+        						.addComponent(chckbxBold))))
+        			.addPreferredGap(ComponentPlacement.RELATED)
         			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
         				.addGroup(groupLayout.createSequentialGroup()
         					.addGap(29)
-        					.addComponent(newBox, GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
+        					.addComponent(newBox, GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
         				.addGroup(groupLayout.createSequentialGroup()
         					.addGap(66)
         					.addComponent(btnSubmit, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
@@ -121,3 +139,4 @@ public class ChatRoom extends JFrame
         newBox.setChatConvo(newConvo);
     }
 }
+
