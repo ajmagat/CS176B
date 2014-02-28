@@ -8,6 +8,7 @@ public class ChatThread extends Thread
 	private DataInputStream m_inStream;
 	private Socket m_clientSock;
 	private ChatThread[] m_connections;
+	private ChatServer m_server;
 
 	public ChatThread()
 	{
@@ -15,11 +16,13 @@ public class ChatThread extends Thread
 		m_inStream = null;
 		m_clientSock = null;
 		m_connections = null;
+		m_server = null;
 	}
 
-	public ChatThread(Socket clientSock, ChatThread[] connections)
+	public ChatThread(Socket clientSock, ChatThread[] connections, ChatServer server)
 	{
 		m_connections = connections;
+		m_server = server;
 		try
 		{
 			m_clientSock = clientSock;
@@ -86,6 +89,7 @@ System.out.println("GETTING THE MESSAGE5");
 					synchronized (this)
 					{
 System.out.println("DO I GET IN HERE");
+						m_connections = m_server.getThreads();
 						for(int c = 0; c < m_connections.length; c++)
 						{
 System.out.println("TRYING TO SEND STUFF");							

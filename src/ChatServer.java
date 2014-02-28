@@ -48,6 +48,11 @@ public class ChatServer
 		runServer();
 	}
 
+	
+	public ChatThread[] getThreads()
+	{
+		return m_connections;
+	}
 
 	/**
 	 * Method that will run the server
@@ -80,9 +85,9 @@ System.out.println("NEW CONNECTION");
 				else
 				{
 System.out.println("WHY");					
-					ChatThread conn_thread = new ChatThread(s, m_connections);					
+					ChatThread conn_thread = new ChatThread(s, m_connections, this);					
 					m_connections[connection_count] = conn_thread;
-System.out.println("WHY MADE CHANGE 7");					
+System.out.println("WHY MADE CHANGE 8");					
 					conn_thread.start();					
 				}
 			}
