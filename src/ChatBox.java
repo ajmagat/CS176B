@@ -291,7 +291,7 @@ public class ChatBox extends JPanel
         
         for(int j = 0; j < (10 - msgSize.length()); j++)
         {
-        	msgSizeBuilder.append("0");
+            msgSizeBuilder.append("0");
         }
         msgSizeBuilder.append(msgSize);
         msgSize = msgSizeBuilder.toString();

@@ -7,8 +7,8 @@ import java.io.*;
  */
 public class ChatConvo 
 {
-	// Document that will hold this chat
-	private StyleContext m_context;
+    // Document that will hold this chat
+    private StyleContext m_context;
     private StyledDocument m_chatConvo;
 
     // TCP socket representing outgoing connection
@@ -26,12 +26,12 @@ public class ChatConvo
     /**
      * Default Constructor
      */
-	ChatConvo()
-	{
-		m_context = new StyleContext( );
+    ChatConvo()
+    {
+        m_context = new StyleContext( );
         m_chatConvo = new DefaultStyledDocument(m_context);
         m_sendSock = null;
-	}
+    }
 
     /**
      * Constructor that takes in two participants WIP
@@ -43,25 +43,25 @@ public class ChatConvo
      */
     ChatConvo(String hostname, int port)
     {
-		m_context = new StyleContext( );
+        m_context = new StyleContext( );
         m_chatConvo = new DefaultStyledDocument(m_context);
 
         try
         {
-			m_sendSock = new Socket(hostname, port);
+            m_sendSock = new Socket(hostname, port);
             m_outStream = new DataOutputStream(m_sendSock.getOutputStream());
             ChatServerListener listener = new ChatServerListener(m_sendSock, m_chatConvo);    
 
             (new Thread(listener)).start();           
-		}
+        }
         catch (UnknownHostException e)
         {
             System.out.println("Cannot find host " + hostname);
         }
-		catch (IOException e)
-		{
-			System.out.println(e);
-		}	
+        catch (IOException e)
+        {
+            System.out.println(e);
+        }   
     }
 
     /**
@@ -69,7 +69,7 @@ public class ChatConvo
      */
     public StyledDocument getChatConvo()
     {
-    	return m_chatConvo;
+        return m_chatConvo;
     }            
 
 
@@ -78,7 +78,7 @@ public class ChatConvo
      */
     public void sendMessage(String header, String message)
     {
-    	// Split up the message according to self defined protocol (10 byte length limit)
+        // Split up the message according to self defined protocol (10 byte length limit)
   //      String[] messages = splitMessage(message);
 
         // Create string builder to hold the message
@@ -87,15 +87,13 @@ public class ChatConvo
         // Create message
   //      for(int i = 0; i < messages.length; i++)
   //      {
-            messageBuilder.append(header);        	
+            messageBuilder.append(header);          
     //        messageBuilder.append(messages[i]);
             messageBuilder.append(message);
    //     }
 
         // Make the message a string
         String msgStr = messageBuilder.toString();
-
-System.out.println("MESSAGE TO BE SENT IN STR IS " + msgStr);
         
         // Turn string into a byte array and send
         try
@@ -153,15 +151,15 @@ System.out.println("MESSAGE TO BE SENT IN STR IS " + msgStr);
      */
     public void closeConvo()
     {
-    	try
-    	{
-    		m_inStream.close();
-    		m_outStream.close();
-    		m_sendSock.close();
-    	}
-    	catch (IOException e)
-    	{
-    		System.out.println(e);
-    	}
+        try
+        {
+            m_inStream.close();
+            m_outStream.close();
+            m_sendSock.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println(e);
+        }
     }
 }
