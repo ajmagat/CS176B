@@ -94,7 +94,7 @@ public class ChatConvo
 
         // Make the message a string
         String msgStr = messageBuilder.toString();
-        
+        System.out.println("MAKE IT HERE");
         // Turn string into a byte array and send
         try
         {

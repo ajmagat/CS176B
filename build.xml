@@ -11,7 +11,11 @@
   </target>
   
   <target name="compile" depends="clean" description="Compile the java code from ${src} into ${build}">
-    <javac srcdir="${src}" destdir="${build}"/>
+    <javac srcdir="${src}" destdir="${build}">
+        <classpath>
+            <pathelement path="bcprov-jdk15on-150.jar"/>
+        </classpath>
+    </javac>
   </target>
   
   <target name="javadoc" depends="compile" description="create javadocs">
@@ -26,6 +30,7 @@
         <java classname="Application" fork="true">
           <classpath>
             <pathelement location="${build}"/>
+            <pathelement path="bcprov-jdk15on-150.jar"/>
           </classpath>
         </java>
   </target>
