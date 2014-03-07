@@ -1,76 +1,66 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.text.*;
 
 public class ChatOptions extends JPanel implements ActionListener {
-    // The chat box area associated with this ChatOption
-    protected ChatBox m_chatBox;
+	// The chat box area associated with this ChatOption
+	protected ChatBox m_chatBox;
 
-    // The combo box of this ChatOption
-    protected JComboBox m_comboBox;
+	// The combo box of this ChatOption
+	protected JComboBox<String> m_comboBox;
 
-    // The type of box
-    private String m_boxType;
+	// The type of box
+	private String m_boxType;
 
-    // String arrays representing potential values for ChatBox
-    private final String [] colorStrings = { "Black", "Purple", "White",
-                                             "Red", "Blue", "Yellow", 
-                                             "Pink", "Orange", "Green" };
-    private final String [] textStrings = { "8", "10", "12", "14", "16", "18", "20" };
+	// String arrays representing potential values for ChatBox
+	private final String[] colorStrings = { "Black", "Purple", "White", "Red",
+			"Blue", "Yellow", "Pink", "Orange", "Green" };
+	private final String[] textStrings = { "8", "10", "12", "14", "16", "18",
+			"20" };
 
+	/**
+	 * Default Constructor
+	 */
+	ChatOptions() {
+		m_comboBox = new JComboBox<String>();
+		m_comboBox = null;
+	}
 
-    /**
-     * Default Constructor
-     */
-    ChatOptions() 
-    {
-        m_comboBox = new JComboBox();
-        m_comboBox = null;
-    }
+	/**
+	 * Constructor that takes in a type
+	 */
+	ChatOptions(String boxType, ChatBox newChatBox) {
+		super(new GridLayout(1, 1));
 
+		// Initialize combo box based on type
+		if (boxType.equals("Color")) {
+			m_comboBox = new JComboBox<String>(colorStrings);
+			m_boxType = boxType;
+		}
 
-    /**
-     * Constructor that takes in a type
-     */
-    ChatOptions(String boxType, ChatBox newChatBox) 
-    {
-        super(new GridLayout(1, 1));
+		if (boxType.equals("Size")) {
+			m_comboBox = new JComboBox<String>(textStrings);
+			m_comboBox.setSelectedIndex(2);
+			m_boxType = boxType;
+		}
 
-        // Initialize combo box based on type
-        if(boxType.equals("Color")) 
-        {
-            m_comboBox = new JComboBox(colorStrings);
-            m_boxType = boxType;
-        }
+		m_chatBox = newChatBox;
+		m_comboBox.addActionListener(this);
+		this.add(m_comboBox);
+	}
 
-        if(boxType.equals("Size")) 
-        {
-            m_comboBox = new JComboBox(textStrings);
-            m_comboBox.setSelectedIndex(2);
-            m_boxType = boxType;
-        }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JComboBox<String> cb = (JComboBox<String>) e.getSource();
+		String chosenValue = (String) cb.getSelectedItem();
 
-        m_chatBox = newChatBox; 
-        m_comboBox.addActionListener(this);
-        this.add(m_comboBox);
-    }
-    
-    @Override
-    public void actionPerformed(ActionEvent e) 
-    {
-        JComboBox cb = (JComboBox)e.getSource();
-        String chosenValue = (String)cb.getSelectedItem();
+		if (m_boxType.equals("Color")) {
+			m_chatBox.setTextColor(chosenValue);
+		}
 
-        if(m_boxType.equals("Color"))
-        {
-            m_chatBox.setTextColor(chosenValue);
-        }
-
-        if(m_boxType.equals("Size"))
-        {
-            m_chatBox.setTextSize(chosenValue);
-        }
-    }
+		if (m_boxType.equals("Size")) {
+			m_chatBox.setTextSize(chosenValue);
+		}
+	}
 
 }
