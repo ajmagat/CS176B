@@ -14,6 +14,7 @@
     <javac srcdir="${src}" destdir="${build}">
         <classpath>
             <pathelement path="bcprov-jdk15on-150.jar"/>
+            <pathelement path="bcpkix-jdk15on-150.jar"/>
         </classpath>
     </javac>
   </target>
@@ -31,6 +32,7 @@
           <classpath>
             <pathelement location="${build}"/>
             <pathelement path="bcprov-jdk15on-150.jar"/>
+            <pathelement path="bcpkix-jdk15on-150.jar"/>
           </classpath>
         </java>
   </target>
