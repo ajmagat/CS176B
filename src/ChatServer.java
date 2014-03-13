@@ -1,6 +1,8 @@
 import java.net.*;
 import java.io.*;
 
+import javax.net.ssl.*;
+
 // Multithreading example from: http://www.ase.md/~aursu/ClientServerThreads.html
 
 public class ChatServer {
@@ -8,6 +10,8 @@ public class ChatServer {
 	private static final int DEFAULT_PORT = 8080;
 	private ChatThread[] m_connections;
 	private ServerSocket m_serverSock;
+	private SSLServerSocketFactory m_sslServerSockFactory;
+	private SSLServerSocket m_sslServerSock;
 
 	/**
 	 * Default Constructor
@@ -16,6 +20,7 @@ public class ChatServer {
 		try {
 			m_serverSock = new ServerSocket(DEFAULT_PORT);
 			m_connections = new ChatThread[MAX_CONNECTIONS];
+			m_sslServerSockFactory = null;
 		} catch (IOException e) {
 			System.out.println("Chat Server failed to start up " + e);
 		}
@@ -28,7 +33,8 @@ public class ChatServer {
 		try {
 			m_serverSock = new ServerSocket(port);
 			m_connections = new ChatThread[MAX_CONNECTIONS];
-
+			m_sslServerSockFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+			m_sslServerSock = (SSLServerSocket) m_sslServerSockFactory.createServerSocket(port);
 		} catch (IOException e) {
 			System.out.println("Chat Server failed to start up\n" + e);
 		}
@@ -45,7 +51,7 @@ public class ChatServer {
 	 */
 	private void runServer() {
 		// Socket to hold the actual socket to client
-		Socket s = null;
+		SSLSocket s = null;
 
 		// Variable to keep track of how many people are using this server,
 		// or in other words how many people are connected to the same room
@@ -53,8 +59,8 @@ public class ChatServer {
 
 		while (true) {
 			try {
-				// Wait for a connection and except
-				s = m_serverSock.accept();
+				// Wait for a connection and accept
+				s = (SSLSocket) m_sslServerSock.accept();
 				// Check if there are already to many connections to server
 				if (connection_count >= MAX_CONNECTIONS) {
 					// tell user we can't accept them

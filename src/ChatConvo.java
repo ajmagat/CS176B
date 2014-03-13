@@ -1,4 +1,5 @@
 import javax.swing.text.*;
+import javax.net.ssl.*;
 import java.net.*;
 import java.io.*;
 
@@ -11,8 +12,13 @@ public class ChatConvo {
 	private StyledDocument m_chatConvo;
 
 	// TCP socket representing outgoing connection
-	private Socket m_sendSock;
+//	private Socket m_sendSock;
 
+	// SSL socket representing outgoing connection
+	private SSLSocket m_sslSendSock;
+	
+	private SSLSocketFactory m_sslFactory;
+	
 	// Output stream to send response to outgoing connection
 	private DataOutputStream m_outStream;
 
@@ -27,7 +33,9 @@ public class ChatConvo {
 	ChatConvo() {
 		m_context = new StyleContext();
 		m_chatConvo = new DefaultStyledDocument(m_context);
-		m_sendSock = null;
+	//	m_sendSock = null;
+		m_sslFactory = null;
+		m_sslSendSock = null;
 	}
 
 	/**
@@ -41,13 +49,19 @@ public class ChatConvo {
 	ChatConvo(String hostname, int port) {
 		m_context = new StyleContext();
 		m_chatConvo = new DefaultStyledDocument(m_context);
-
+		System.out.println("PLEASE");
+		m_sslFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+System.out.println("WEREWRQW");
 		try {
-			m_sendSock = new Socket(hostname, port);
-			m_outStream = new DataOutputStream(m_sendSock.getOutputStream());
-			ChatServerListener listener = new ChatServerListener(m_sendSock,
-					m_chatConvo);
-
+			m_sslSendSock = (SSLSocket) m_sslFactory.createSocket(hostname, port);
+			System.out.println("NIOOOOOOOOOO");
+			m_outStream = new DataOutputStream(m_sslSendSock.getOutputStream());
+		//	m_sendSock = new Socket(hostname, port);
+		//	m_outStream = new DataOutputStream(m_sendSock.getOutputStream());
+		//	ChatServerListener listener = new ChatServerListener(m_sendSock,
+		//			m_chatConvo);
+			ChatServerListener listener = new ChatServerListener(m_sslSendSock, m_chatConvo);
+			
 			(new Thread(listener)).start();
 		} catch (UnknownHostException e) {
 			System.out.println("Cannot find host " + hostname);
@@ -84,7 +98,7 @@ public class ChatConvo {
 
 		// Make the message a string
 		String msgStr = messageBuilder.toString();
-		System.out.println("MAKE IT HERE");
+
 		// Turn string into a byte array and send
 		try {
 			byte[] msgBytes = msgStr.getBytes("UTF-8");
@@ -133,7 +147,7 @@ public class ChatConvo {
 		try {
 			m_inStream.close();
 			m_outStream.close();
-			m_sendSock.close();
+			m_sslSendSock.close();
 		} catch (IOException e) {
 			System.out.println(e);
 		}

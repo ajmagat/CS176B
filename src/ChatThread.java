@@ -1,6 +1,8 @@
 import java.net.*;
 import java.io.*;
 
+import javax.net.ssl.*;
+
 public class ChatThread extends Thread {
 	public DataOutputStream m_outStream;
 	private DataInputStream m_inStream;
@@ -16,7 +18,7 @@ public class ChatThread extends Thread {
 		m_server = null;
 	}
 
-	public ChatThread(Socket clientSock, ChatThread[] connections,
+	public ChatThread(SSLSocket clientSock, ChatThread[] connections,
 			ChatServer server) {
 		m_connections = connections;
 		m_server = server;

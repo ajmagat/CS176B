@@ -1,4 +1,5 @@
 import javax.swing.text.*;
+import javax.net.ssl.*;
 
 import java.net.*;
 import java.awt.Color;
@@ -16,9 +17,9 @@ public class ChatServerListener implements Runnable {
 	}
 
 	/**
-	 * Constructor that takes in a socket and a StyledDocument
+	 * Constructor that takes in a socket and a StyledDocument representing current convo
 	 */
-	ChatServerListener(Socket clientSock, StyledDocument chatConvo) {
+	ChatServerListener(SSLSocket clientSock, StyledDocument chatConvo) {
 		try {
 			m_inStream = new DataInputStream(clientSock.getInputStream());
 		} catch (IOException e) {
@@ -28,14 +29,16 @@ public class ChatServerListener implements Runnable {
 		m_chatConvo = chatConvo;
 	}
 
+	
+	@Override
 	public void run() {
 		try {
 			while (true) {
-
 				// Wait for message type byte
 				byte[] msgType = new byte[2];
 				m_inStream.readFully(msgType);
 				String str = new String(msgType, "UTF-8");
+				
 				System.out.println("The type is " + str);
 				// Receiving message
 				if (str.equals("11")) {
