@@ -7,7 +7,7 @@ public class ChatOptions extends JPanel implements ActionListener {
 	protected ChatBox m_chatBox;
 
 	// The combo box of this ChatOption
-	protected JComboBox<String> m_comboBox;
+	protected JComboBox m_comboBox;
 
 	// The type of box
 	private String m_boxType;
@@ -22,7 +22,7 @@ public class ChatOptions extends JPanel implements ActionListener {
 	 * Default Constructor
 	 */
 	ChatOptions() {
-		m_comboBox = new JComboBox<String>();
+		m_comboBox = new JComboBox();
 		m_boxType = null;
 	}
 
@@ -34,12 +34,12 @@ public class ChatOptions extends JPanel implements ActionListener {
 
 		// Initialize combo box based on type
 		if (boxType.equals("Color")) {
-			m_comboBox = new JComboBox<String>(colorStrings);
+			m_comboBox = new JComboBox(colorStrings);
 			m_boxType = boxType;
 		}
 
 		if (boxType.equals("Size")) {
-			m_comboBox = new JComboBox<String>(textStrings);
+			m_comboBox = new JComboBox(textStrings);
 			m_comboBox.setSelectedIndex(2);
 			m_boxType = boxType;
 		}
@@ -51,7 +51,7 @@ public class ChatOptions extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JComboBox<String> cb = (JComboBox<String>) e.getSource();
+		JComboBox cb = (JComboBox) e.getSource();
 		String chosenValue = (String) cb.getSelectedItem();
 
 		if (m_boxType.equals("Color")) {

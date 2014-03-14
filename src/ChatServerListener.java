@@ -5,6 +5,8 @@ import java.net.*;
 import java.awt.Color;
 import java.io.*;
 
+
+// This class will take a socket and listen for all incoming messages
 public class ChatServerListener implements Runnable {
 	private DataInputStream m_inStream;
 	private StyledDocument m_chatConvo;
@@ -17,9 +19,9 @@ public class ChatServerListener implements Runnable {
 	}
 
 	/**
-	 * Constructor that takes in a socket and a StyledDocument representing current convo
+	 * Constructor that takes in a client socket and a StyledDocument representing current convo
 	 */
-	ChatServerListener(SSLSocket clientSock, StyledDocument chatConvo) {
+	ChatServerListener(Socket clientSock, StyledDocument chatConvo) {
 		try {
 			m_inStream = new DataInputStream(clientSock.getInputStream());
 		} catch (IOException e) {

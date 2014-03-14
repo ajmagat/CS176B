@@ -27,24 +27,51 @@ public class ChatRoom extends JFrame {
 	private ChatSubmit btnSubmit = new ChatSubmit(newBox);
 	private ChatCheckBox chckbxItalic = new ChatCheckBox("Italic", newBox);
 	private ChatCheckBox chckbxBold = new ChatCheckBox("Bold", newBox);
-	
+	private MapBox internalFrame = new MapBox();
 	private ArrayList<ChatConvo> m_convoList = new ArrayList<ChatConvo>();
+	private String m_username = null;
+	private String m_roomType = null;
 	
 	/**
 	 * Default Constructor
 	 */
 	ChatRoom() {
+
+	}
+
+	/**
+	 * Constructor that takes in a username and roomType
+	 */
+	ChatRoom(String username, String roomType) {
+		m_username = username;
+		m_roomType = roomType;
+
 		// Set some box related stuff
 		setTitle("ChatRoom");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(694, 600);
 
 		newBox.attachBtn(btnSubmit);
-		
-		MapBox internalFrame = new MapBox();
+		//newBox.turnOff();
+
 		internalFrame.setVisible(true);
 
+		if(m_roomType.equalsIgnoreCase("p2p"))
+		{
+			// Some sort of button
+			// Will create a chatconvo
+		}
 
+		if(m_roomType.equalsIgnoreCase("mc"))
+		{
+			// Some sort of button
+			ChatConvo newConvo = new ChatConvo("169-231-93-247.wireless.ucsb.edu", 12321, "bob");
+						switchConversation(newConvo);
+		}
+
+		/*************************************************/
+        /****          GUI STUFF DO NOT TOUCH         ****/
+		/*************************************************/
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -99,28 +126,20 @@ public class ChatRoom extends JFrame {
 		getContentPane().setLayout(groupLayout);
 		setVisible(true);
 		/*************************************************/
+        /****          GUI STUFF DO NOT TOUCH         ****/
+		/*************************************************/
 
 		this.getRootPane().setDefaultButton(btnSubmit.getButton());
-
+/*
 		try {
 			ChatConvo newConvo = new ChatConvo("169-231-93-247.wireless.ucsb.edu", 12321, "bob");
 			System.out.println(InetAddress.getLocalHost().getHostName());
-			// ChatConvo newConvo = new ChatConvo();
 			switchConversation(newConvo);
 			
-			String test = "555";
-
-			final byte[] inBytes = test.getBytes("UTF-8");
-			System.out.println("Size in bytes " + inBytes.length);
-			for (byte b : inBytes) {
-				System.out.println("Byte: " + b);
-			}
-			String str = new String(inBytes, "UTF-8");
-			System.out.println("Bytes back to string: " + str);
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-
+*/
 		this.addWindowListener( new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				closeAllConnections();
