@@ -33,15 +33,15 @@ public class ChatRoom extends JFrame implements ActionListener {
 	private static final int DEFAULT_PORT = 50505;
 
 	// Create the objects of this chat
-	private ChatView newView = new ChatView();
-	private ChatBox newBox = new ChatBox(newView);
-	private ChatOptions colorOptions = new ChatOptions("Color", newBox);
-	private ChatOptions sizeOptions = new ChatOptions("Size", newBox);
-	private ChatSubmit btnSubmit = new ChatSubmit(newBox);
-	private ChatCheckBox chckbxItalic = new ChatCheckBox("Italic", newBox);
-	private ChatCheckBox chckbxBold = new ChatCheckBox("Bold", newBox);
-	private MapBox internalFrame = new MapBox();
-	private ArrayList<ChatConvo> m_convoList = new ArrayList<ChatConvo>();
+	private ChatView newView = null;
+	private ChatBox newBox = null;
+	private ChatOptions colorOptions = null;
+	private ChatOptions sizeOptions = null;
+	private ChatSubmit btnSubmit = null;
+	private ChatCheckBox chckbxItalic = null;
+	private ChatCheckBox chckbxBold = null;
+	private MapBox internalFrame = null;
+	private ArrayList<ChatConvo> m_convoList = null;
 	private String m_username = null;
 	private String m_roomType = null;
 	private ChatConvo m_p2pConvo = null;
@@ -57,6 +57,20 @@ public class ChatRoom extends JFrame implements ActionListener {
 	 * Constructor that takes in a username and roomType
 	 */
 	ChatRoom(String username, String roomType) {
+
+		newView = new ChatView();
+		newBox = new ChatBox(newView, m_username);
+		colorOptions = new ChatOptions("Color", newBox);
+		sizeOptions = new ChatOptions("Size", newBox);
+		btnSubmit = new ChatSubmit(newBox);
+		chckbxItalic = new ChatCheckBox("Italic", newBox);
+		chckbxBold = new ChatCheckBox("Bold", newBox);
+		internalFrame = new MapBox();
+		m_convoList = new ArrayList<ChatConvo>();
+		m_username = null;
+		m_roomType = null;
+		m_p2pConvo = null;
+		
 		m_username = username;
 		m_roomType = roomType;
 
@@ -69,7 +83,7 @@ public class ChatRoom extends JFrame implements ActionListener {
 		
 		// Create the MapBox
 		MapBox internalFrame = new MapBox();
-		newBox.turnOff();
+		//newBox.turnOff();
 
 		internalFrame.setVisible(true);
 		JButton btnNewButton = new JButton();

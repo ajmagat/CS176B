@@ -54,7 +54,7 @@ public class ChatP2PThread implements Runnable {
                 m_convo.setOutputStream(new DataOutputStream(s.getOutputStream()));
 
                 // Clear any text in m_convo
-                (m_convo.getChatConvo()).remove(0, (m_convo.getChatConvo().getLength()));
+             //   (m_convo.getChatConvo()).remove(0, (m_convo.getChatConvo().getLength()));
 
             } catch (Exception e) {
                 System.out.println("Connection cannot be established\n" + e);

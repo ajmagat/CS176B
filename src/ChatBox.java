@@ -27,6 +27,9 @@ public class ChatBox extends JPanel {
 
 	// Attached submit button
 	protected ChatSubmit m_submitBtn;
+	
+	// Hold user name
+	protected String m_username;
 
 	private static final String TEXT_SUBMIT = "text-submit";
 	private static final String INSERT_BREAK = "insert-break";
@@ -55,10 +58,13 @@ public class ChatBox extends JPanel {
 	/**
 	 * Constructor that takes in a ChatView object
 	 */
-	ChatBox(ChatView newView) {
+	ChatBox(ChatView newView, String username) {
 		// Set Layout
 		super(new GridLayout(1, 1));
 
+		// Hold username
+		m_username = username;
+		
 		// Create input area
 		m_inputArea = new JTextPane();
 		m_inputArea.setEditable(true);
@@ -219,7 +225,12 @@ public class ChatBox extends JPanel {
 	public void submitInputText() {
 		// Get text from text field
 		String text = m_inputArea.getText() + newline;
+		
+		// Get length of username plus 2 for ": "
+		String nameLength = Integer.toString(m_username.length() + 2);
 
+		// Create full message
+		text = nameLength + text;
 		// Get underlying document of the ChatView object
 		StyledDocument doc = m_currentConvo.getChatConvo();
 
@@ -257,10 +268,20 @@ public class ChatBox extends JPanel {
 		// Size
 		msgHeader.append(Integer.toString(m_textSize));
 
-		String msgSize = Integer.toString((text.length()));
-
+		// User name
+		StringBuilder nameSizeBuilder = new StringBuilder();
+		String nameSize = Integer.toString((m_username.length() + 2));
+		if(nameSize.length() < 2)
+		{
+			nameSizeBuilder.append(0);
+		}
+		nameSizeBuilder.append(nameSize.length());
+		msgHeader.append(nameSizeBuilder.toString());
+		
+		
+		// Get message size
+		String msgSize = Integer.toString((text.length() - (m_username.length() + 2)));
 		StringBuilder msgSizeBuilder = new StringBuilder();
-
 		for (int j = 0; j < (10 - msgSize.length()); j++) {
 			msgSizeBuilder.append("0");
 		}

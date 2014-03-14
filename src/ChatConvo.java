@@ -117,10 +117,6 @@ public class ChatConvo {
 
         createSSLSocketConnection(hostname, port);
 
-        // Create a thread that will listen for messages from the server
-        ChatServerListener listener = new ChatServerListener(m_sslSendSock, m_chatConvo);
-            
-        (new Thread(listener)).start();
 
         try {
             (m_chatConvo).remove(0, (m_chatConvo.getLength()));
@@ -252,6 +248,11 @@ public class ChatConvo {
 */
             // Get the output stream of the data socket
             m_outStream = new DataOutputStream(m_sslSendSock.getOutputStream());
+            // Create a thread that will listen for messages from the server
+            ChatServerListener listener = new ChatServerListener(m_sslSendSock, m_chatConvo);
+                
+            (new Thread(listener)).start();
+
 
         } catch (UnknownHostException uhe) {
             System.out.println("Cannot find host " + hostname);

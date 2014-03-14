@@ -37,13 +37,13 @@ public class ChatServerListener implements Runnable {
 		try {
 			while (true) {
 				// Wait for message type byte
-				byte[] msgType = new byte[2];
+				byte[] msgType = new byte[1];
 				m_inStream.readFully(msgType);
 				String str = new String(msgType, "UTF-8");
 				
 				System.out.println("The type is " + str);
 				// Receiving message
-				if (str.equals("11")) {
+				if (str.equals("1")) {
 					// Get the text parameters for this object
 					byte[] textParams = new byte[5];
 					m_inStream.readFully(textParams);
@@ -64,17 +64,30 @@ public class ChatServerListener implements Runnable {
 
 					int textSize = Integer.parseInt(params.substring(3, 5));
 
+					// Get the size of the username
+					byte[] nmeSize = new byte[2];
+					m_inStream.readFully(nmeSize);
+					String nmeSizeStr = new String(nmeSize, "UTF-8");
+					int nmeSizeInt = Integer.parseInt(nmeSizeStr);
+					
 					// Get size of message
 					byte[] msgSize = new byte[10];
 					m_inStream.readFully(msgSize);
 					String sizeStr = new String(msgSize, "UTF-8");
 					int sizeInt = Integer.parseInt(sizeStr);
 
+					// Get username
+					byte [] name = new byte[nmeSizeInt];
+					m_inStream.readFully(name);
+					
 					// Get message
 					byte[] msg = new byte[sizeInt];
 					m_inStream.readFully(msg);
 
+					String userName = new String(name, "UTF-8");
 					String finalMsg = new String(msg, "UTF-8");
+					
+					finalMsg = userName + finalMsg;
 
 					// Set attributes
 					SimpleAttributeSet viewAttr = new SimpleAttributeSet();
