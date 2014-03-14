@@ -37,10 +37,11 @@ import javax.swing.text.StyledDocument;
 
 import org.jdesktop.swingx.mapviewer.GeoPosition;
 
+/*
 import com.maxmind.geoip.Location;
 import com.maxmind.geoip.LookupService;
 import com.maxmind.geoip.regionName;
-
+*/
 /**
  * This class represents the chat conversation
  */
@@ -67,7 +68,7 @@ public class ChatConvo {
     private static final int HEADER_SIZE = 10;
     
 	// Traceroute to generate route 
-	private Traceroute tracer;
+	//private Traceroute tracer;
 	
 	public List<GeoPosition> geoList;
     
@@ -222,7 +223,7 @@ public class ChatConvo {
             // Create an SSL socket to send messages            
             m_sslSendSock = (SSLSocket) m_sslFactory.createSocket(hostname, port);
             
-			//m_sslSendSock.getInetAddress().getHostName();
+		/*	//m_sslSendSock.getInetAddress().getHostName();
 			tracer.trace();
 			
 			// Get routeInfo from tracer, which is a list of IP addresses, and get the latitude, longitude of every IP using maxMind database. 
@@ -248,7 +249,7 @@ public class ChatConvo {
 			{
 				geoList.add(new GeoPosition(locList.get(j).latitude, locList.get(j).longitude));
 			}
-
+*/
             // Get the output stream of the data socket
             m_outStream = new DataOutputStream(m_sslSendSock.getOutputStream());
 

@@ -80,6 +80,7 @@ public class ChatRoom extends JFrame implements ActionListener {
 			btnNewButton = new JButton("Connect to IP");
 			btnNewButton.addActionListener(this);
 			m_p2pConvo = new ChatConvo(m_username);
+			switchConversation(m_p2pConvo);
 		}
 
 		if(m_roomType.equalsIgnoreCase("mc"))
@@ -218,6 +219,7 @@ public class ChatRoom extends JFrame implements ActionListener {
 	{
 		try
 		{
+			newBox.turnOn();
 		    m_p2pConvo.createSSLSocketConnection(hostname, DEFAULT_PORT);
 		}
 		catch (Exception e)
