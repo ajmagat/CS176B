@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.JOptionPane;
@@ -22,6 +23,11 @@ import javax.swing.JInternalFrame;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+
+import org.jdesktop.swingx.mapviewer.GeoPosition;
+
+import com.maxmind.geoip.Location;
+import com.maxmind.geoip.LookupService;
 
 /**
  * This represents the overall chat applications
@@ -45,6 +51,15 @@ public class ChatRoom extends JFrame implements ActionListener {
 	private String m_username = null;
 	private String m_roomType = null;
 	private ChatConvo m_p2pConvo = null;
+	
+	// Traceroute to generate route
+    private Traceroute tracer;
+	public List<GeoPosition> geoList;
+	
+	// Create Maxmind database 
+	private File database;
+	private LookupService reader; 
+
 
 	/**
 	 * Default Constructor
@@ -68,6 +83,15 @@ public class ChatRoom extends JFrame implements ActionListener {
 		chckbxBold = new ChatCheckBox("Bold", newBox);
 		internalFrame = new MapBox();
 		m_convoList = new ArrayList<ChatConvo>();
+		tracer = new Traceroute();
+		geoList = new ArrayList<GeoPosition>();
+		database = new File("/Users/alickxu/Documents/cs176b");
+		try {
+			reader = new LookupService(database);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// Set some box related stuff
 		setTitle("ChatRoom");
@@ -329,6 +353,34 @@ public class ChatRoom extends JFrame implements ActionListener {
 		try {
 			newBox.turnOn();
 			m_p2pConvo.createSSLSocketConnection(hostname, DEFAULT_PORT);
+			
+			//empty geoList
+			geoList.clear();
+			
+			//perform a trace to destination
+			tracer.setDestination(SERVER_IP);
+			tracer.trace();
+			List<String> route = tracer.getRouteInfo();
+			
+			// Get list of all locations visited from traceroute 
+			List<Location> locList = new ArrayList<Location>(); 
+			for(int i = 0; i < route.size(); i++) 
+			{ 
+				String routeName = route.get(i);
+				Location loc = reader.getLocation(routeName); locList.add(loc); 
+			}
+			  
+			// Using latitude, longitude of every IP, Use MapBox to draw a route between each IP 
+			// Create a list of GeoPositions using list of Locations 
+			for(int j = 0; j < locList.size(); j++) 
+			{
+				geoList.add(new GeoPosition(locList.get(j).latitude,locList.get(j).longitude)); 
+			}
+
+			// Recreate MapBox from the traceroute
+			internalFrame = new MapBox(geoList);
+			internalFrame.setVisible(true);
+			
 		} catch (Exception e) {
 			System.out.println("Error connecting");
 			e.printStackTrace();
@@ -341,10 +393,34 @@ public class ChatRoom extends JFrame implements ActionListener {
 					m_username);
 			switchConversation(newConvo);
 			newBox.turnOn();
+			
+			//empty geoList
+			geoList.clear();
+			
+			//perform a trace to destination
+			tracer.setDestination(SERVER_IP);
+			tracer.trace();
+			List<String> route = tracer.getRouteInfo();
+			 
+			// Get list of all locations visited from traceroute 
+			List<Location> locList = new ArrayList<Location>(); 
+			for(int i = 0; i < route.size(); i++) 
+			{ 
+				String routeName = route.get(i);
+				Location loc = reader.getLocation(routeName); locList.add(loc); 
+			}
+			  
+			// Using latitude, longitude of every IP, Use MapBox to draw a route between each IP 
+			// Create a list of GeoPositions using list of Locations 
+			for(int j = 0; j < locList.size(); j++) 
+			{
+				geoList.add(new GeoPosition(locList.get(j).latitude,locList.get(j).longitude)); 
+			}
 
 			// Recreate MapBox from the traceroute
-			internalFrame = new MapBox(newConvo.geoList);
+			internalFrame = new MapBox(geoList);
 			internalFrame.setVisible(true);
+			
 		} catch (Exception e) {
 			System.out.println("Error joining room");
 			e.printStackTrace();

@@ -67,10 +67,7 @@ public class ChatConvo {
 
 	private static final int HEADER_SIZE = 10;
 
-	// Traceroute to generate route
-	// private Traceroute tracer;
 
-	public List<GeoPosition> geoList;
 
 	/**
 	 * Default Constructor
