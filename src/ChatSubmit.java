@@ -4,10 +4,10 @@ import javax.swing.*;
 
 public class ChatSubmit extends JPanel implements ActionListener {
 	// Submit button
-	JButton m_submitBtn;
+	private JButton m_submitBtn;
 
 	// Connected chat box
-	ChatBox m_chatBox;
+	private ChatBox m_chatBox;
 
 	/**
 	 * Default constructor

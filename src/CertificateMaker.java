@@ -25,7 +25,7 @@ public class CertificateMaker {
 
 	}
 
-	public void createKeysAndCertificate() {
+	public void createKeysAndCertificate(String sc, String ip) {
 		try {
 			System.out.println("===================================");
 			// Adds the Bouncy castle provider to java security
@@ -67,8 +67,8 @@ public class CertificateMaker {
 			//		5. the subject of the certificate
 			//		6. the public key information that will come with certificate
 			X509v3CertificateBuilder v3CertGen = new X509v3CertificateBuilder(
-					new X500Name("CN=Test"), BigInteger.ONE, startDate,
-					endDate, new X500Name("CN=Test"), publicKeyInfo);
+					new X500Name("CN=" + sc), BigInteger.ONE, startDate,
+					endDate, new X500Name("CN=" + ip), publicKeyInfo);
 
 			// Create a certificate holder, which will hold the actual certificate
 			// Uses the certificate builder above, along with the signature to create a self 
@@ -90,7 +90,7 @@ public class CertificateMaker {
             chain[0] = certX;
 			
             // Place private key into key store, as well as certificate
-			ks.setKeyEntry("myalias", keyPair.getPrivate(), new char[] {'p', 'p'}, chain);
+			ks.setKeyEntry(sc + "/" + ip, keyPair.getPrivate(), new char[] {'p', 'p'}, chain);
 
 			// Keystore name and password
 			FileOutputStream fos = new FileOutputStream("custom_store.jks");

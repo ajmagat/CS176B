@@ -1,23 +1,32 @@
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
+import javax.swing.JOptionPane;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 
 import javax.swing.JCheckBox;
 
 import java.net.*;
+
 import javax.swing.JPanel;
 import javax.swing.JInternalFrame;
+
 import java.util.ArrayList;
+
+import javax.swing.JButton;
 
 /**
  * This represents the overall chat applications
  */
 
-public class ChatRoom extends JFrame {
+public class ChatRoom extends JFrame implements ActionListener {
 	private static final int NUM_PIXELS = 600;
+	private static final String SERVER_IP = "169-231-93-247.wireless.ucsb.edu";
+	private static final int DEFAULT_PORT = 50505;
 
 	// Create the objects of this chat
 	private ChatView newView = new ChatView();
@@ -31,6 +40,7 @@ public class ChatRoom extends JFrame {
 	private ArrayList<ChatConvo> m_convoList = new ArrayList<ChatConvo>();
 	private String m_username = null;
 	private String m_roomType = null;
+	private ChatConvo m_p2pConvo = null;
 	
 	/**
 	 * Default Constructor
@@ -52,48 +62,66 @@ public class ChatRoom extends JFrame {
 		setSize(694, 600);
 
 		newBox.attachBtn(btnSubmit);
-		//newBox.turnOff();
+		newBox.turnOff();
 
 		internalFrame.setVisible(true);
-
+		JButton btnNewButton = new JButton();
 		if(m_roomType.equalsIgnoreCase("p2p"))
 		{
 			// Some sort of button
 			// Will create a chatconvo
+			btnNewButton = new JButton("Connect to IP");
+			btnNewButton.addActionListener(this);
+			m_p2pConvo = new ChatConvo(m_username);
 		}
 
 		if(m_roomType.equalsIgnoreCase("mc"))
 		{
 			// Some sort of button
-			ChatConvo newConvo = new ChatConvo("169-231-93-247.wireless.ucsb.edu", 12321, "bob");
-						switchConversation(newConvo);
+	//		ChatConvo newConvo = new ChatConvo("169-231-93-247.wireless.ucsb.edu", 12321, "bob");
+		//	switchConversation(newConvo);
+			btnNewButton = new JButton("Join Room");
+			btnNewButton.addActionListener(this);
 		}
+		
+
+		
+		JButton btnNewButton_1 = new JButton("New button");
 
 		/*************************************************/
         /****          GUI STUFF DO NOT TOUCH         ****/
 		/*************************************************/
+		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(newView, GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
+					.addComponent(newView, GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
 					.addGap(18)
 					.addComponent(internalFrame, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(newBox, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnSubmit, GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+							.addComponent(colorOptions, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(sizeOptions, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(chckbxItalic, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(chckbxBold, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
+							.addComponent(btnNewButton_1))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(newBox, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(18)
+									.addComponent(btnSubmit, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnNewButton)))))
 					.addGap(22))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(colorOptions, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(sizeOptions, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(chckbxItalic, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(chckbxBold, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(206))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -117,9 +145,12 @@ public class ChatRoom extends JFrame {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(29)
-							.addComponent(newBox, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
+							.addComponent(newBox, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(66)
+							.addComponent(btnNewButton_1)
+							.addGap(18)
+							.addComponent(btnNewButton)
+							.addGap(18)
 							.addComponent(btnSubmit, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap())))
 		);
@@ -140,13 +171,13 @@ public class ChatRoom extends JFrame {
 			System.out.println(e);
 		}
 */
-		this.addWindowListener( new java.awt.event.WindowAdapter() {
+	/*	this.addWindowListener( new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				closeAllConnections();
 				System.exit(0);
 			}
 			
-		});
+		});*/
 	}
 
 	/**
@@ -158,6 +189,34 @@ public class ChatRoom extends JFrame {
 		newBox.setChatConvo(newConvo);
 	}
 	
+	public void makeP2PConvo(String hostname)
+	{
+		try
+		{
+		    m_p2pConvo.createSSLSocketConnection(hostname, DEFAULT_PORT);
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error connecting");
+			e.printStackTrace();
+		}
+	}
+	
+	public void makeMCConvo(int portNumber)
+	{
+		try
+		{
+			ChatConvo newConvo = new ChatConvo(SERVER_IP, portNumber, m_username);
+			switchConversation(newConvo);
+			newBox.turnOn();
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error joining room");
+			e.printStackTrace();
+		}
+	}
+	
 	public void closeAllConnections()
 	{
 		for(ChatConvo c : m_convoList)
@@ -165,5 +224,19 @@ public class ChatRoom extends JFrame {
 			c.closeConvo();
 		}
 	}
-
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(m_roomType.equals("p2p"))
+		{
+			String ipAddr = JOptionPane.showInputDialog(null, "Enter Target IP: ");
+			makeP2PConvo(ipAddr);
+		}
+		if(m_roomType.equals("mc"))
+		{
+			String message = JOptionPane.showInputDialog(null, "Enter Room Number (8000 - 10000): ");
+			int roomNum = Integer.parseInt(message);
+			makeMCConvo(roomNum);
+		}
+	}
 }

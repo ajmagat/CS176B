@@ -1,3 +1,4 @@
+import javax.swing.JOptionPane;
 import javax.swing.text.*;
 import javax.net.ssl.*;
 
@@ -72,7 +73,7 @@ public class ChatConvo {
     }
 
     /**
-     * Constructor that takes in the address of a server and port number for multiple chat
+     * Constructor that takes in the address of a server, port number, and username for multiple chat
      */
     ChatConvo(String hostname, int port, String username) {
         m_context = new StyleContext();
@@ -85,13 +86,13 @@ public class ChatConvo {
             
         (new Thread(listener)).start();
 
-                    try{
-                        (m_chatConvo).remove(0, (m_chatConvo.getLength()));
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
+        try {
+            (m_chatConvo).remove(0, (m_chatConvo.getLength()));
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        }
     }
 
     public void createSSLSocketConnection(String hostname, int port)
@@ -123,19 +124,32 @@ public class ChatConvo {
                         ks.load(fos, password);
                     
                         String ipAlias = ((chain[0].getSubjectX500Principal()).getName());
-                        ipAlias = ipAlias.substring(3, apAlias.length() );
-
+                        
+                        ipAlias = ipAlias.substring(3, ipAlias.length() );
+//System.out.println("ADSFASDFAFDFADS " + ipAlias);
                         Certificate checkCert = ks.getCertificate(ipAlias);
 
                         if(checkCert == null)
                         {
-                            //System.out.println()
-                            System.out.println("ADDDDDINNG TO TRUST STORE");
-                            KeyStore.Entry newEntry = new KeyStore.TrustedCertificateEntry(chain[0]);
-                            ks.setEntry(ipAlias, newEntry, null);
-                            FileOutputStream ploop = new FileOutputStream("custom_store.jks");
-                            ks.store(ploop, "pp".toCharArray());
-                            return;
+                        	//Custom button text
+                        	Object[] options = {"Yes, please",
+                        	                    "No, thanks"};
+                        	int n = JOptionPane.showOptionDialog(null,
+                        	    "Untrusted Certificate, would you like to proceed with chat?",
+                        	    "Warning",
+                        	    JOptionPane.YES_NO_CANCEL_OPTION,
+                        	    JOptionPane.QUESTION_MESSAGE,
+                        	    null,
+                        	    options,
+                        	    options[0]);              
+                        	
+                        	if(n == 0)
+                        	{
+                        		KeyStore.Entry newEntry = new KeyStore.TrustedCertificateEntry(chain[0]);
+                            	ks.setEntry(ipAlias, newEntry, null);
+                            	FileOutputStream ploop = new FileOutputStream("custom_store.jks");
+                            	ks.store(ploop, "pp".toCharArray());
+                        	}
                         }
                         else
                         {
