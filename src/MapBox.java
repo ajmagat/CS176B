@@ -1,16 +1,10 @@
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.swing.*;
-import javax.swing.text.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.event.MouseInputListener;
 
 import org.jdesktop.swingx.JXMapViewer;
@@ -43,12 +37,10 @@ public class MapBox extends JInternalFrame
 	 * Default constructor
 	 */
 	MapBox()
-	{
-		
+	{	
 		mapViewer = new JXMapViewer();
 		this.add(mapViewer);
 		this.setVisible(true);
-		
 		
 		// Create a TileFactoryInfo for OpenStreetMap
 		TileFactoryInfo info = new OSMTileFactoryInfo();
@@ -89,15 +81,9 @@ public class MapBox extends JInternalFrame
 		// Create a track from the geo-positions
 		track = Arrays.asList(frankfurt, wiesbaden, mainz, darmstadt, offenbach);
 		RoutePainter routePainter = new RoutePainter(track);
-
-		Waypoint test = new DefaultWaypoint(frankfurt);
 		
 		// Set the focus
-		//mapViewer.zoomToBestFit(new HashSet<GeoPosition>(track), 1);
-		mapViewer.calculateZoomFrom(new HashSet<GeoPosition>(track));
-
-		System.out.println("track size: " + track.size());
-		
+		mapViewer.calculateZoomFrom(new HashSet<GeoPosition>(track));		
 		
 		// Create waypoints from the geo-positions
 		Set<Waypoint> waypoints = new HashSet<Waypoint>(Arrays.asList(
@@ -107,7 +93,7 @@ public class MapBox extends JInternalFrame
 				new DefaultWaypoint(darmstadt),
 				new DefaultWaypoint(offenbach)));
 		
-		System.out.println("waypoints size:" + waypoints.size());
+		//System.out.println("waypoints size:" + waypoints.size());
 
 		// Create a waypoint painter that takes all the waypoints
 		WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<Waypoint>();
@@ -120,9 +106,6 @@ public class MapBox extends JInternalFrame
 		
 		CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
 		mapViewer.setOverlayPainter(painter);
-		
-
-		
 
 	}
 	
@@ -131,8 +114,57 @@ public class MapBox extends JInternalFrame
 	 */
 	MapBox(List<GeoPosition> theList)
 	{
+		track = theList;
+		mapViewer = new JXMapViewer();
+		this.add(mapViewer);
+		this.setVisible(true);
 		
-		//track = theList;
+		// Create a TileFactoryInfo for OpenStreetMap
+		TileFactoryInfo info = new OSMTileFactoryInfo();
+		DefaultTileFactory tileFactory = new DefaultTileFactory(info);
+		mapViewer.setTileFactory(tileFactory);
 		
+		// Use 8 threads in parallel to load the tiles
+		tileFactory.setThreadPoolSize(8);
+
+		// Add interactions
+		MouseInputListener mia = new PanMouseInputListener(mapViewer);
+		mapViewer.addMouseListener(mia);
+		mapViewer.addMouseMotionListener(mia);
+		mapViewer.addMouseListener(new CenterMapListener(mapViewer));
+		mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCursor(mapViewer));
+		mapViewer.addKeyListener(new PanKeyListener(mapViewer));
+		
+		// Add a selection painter
+		SelectionAdapter sa = new SelectionAdapter(mapViewer); 
+		SelectionPainter sp = new SelectionPainter(sa); 
+		mapViewer.addMouseListener(sa); 
+		mapViewer.addMouseMotionListener(sa); 
+		mapViewer.setOverlayPainter(sp);
+		
+		// Create RoutePainter from given list
+		RoutePainter routePainter = new RoutePainter(track);
+		mapViewer.calculateZoomFrom(new HashSet<GeoPosition>(track));		
+
+		// Create set of Waypoints given list
+		Set<Waypoint> waypoints = new HashSet<Waypoint>();
+		for(int i = 0; i < track.size(); i++)
+		{
+			GeoPosition temp = track.get(i);
+			waypoints.add(new DefaultWaypoint(temp));
+		}
+		
+		// Create a waypoint painter that takes all the waypoints
+		WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<Waypoint>();
+		waypointPainter.setWaypoints(waypoints);
+				
+		// Create a compound painter that uses both the route-painter and the waypoint-painter
+		List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
+		painters.add(routePainter);
+		painters.add(waypointPainter);
+				
+		CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
+		mapViewer.setOverlayPainter(painter);
+
 	}
 }

@@ -1,16 +1,11 @@
-import javax.swing.JFrame;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.util.ArrayList;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JFrame;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
-import java.io.*;
-
-import javax.swing.JCheckBox;
-
-import java.net.*;
-import javax.swing.JPanel;
-import javax.swing.JInternalFrame;
-import java.util.ArrayList;
 
 /**
  * This represents the overall chat applications
@@ -41,6 +36,7 @@ public class ChatRoom extends JFrame {
 
 		newBox.attachBtn(btnSubmit);
 		
+		// Create the MapBox
 		MapBox internalFrame = new MapBox();
 		internalFrame.setVisible(true);
 
@@ -107,6 +103,10 @@ public class ChatRoom extends JFrame {
 			System.out.println(InetAddress.getLocalHost().getHostName());
 			// ChatConvo newConvo = new ChatConvo();
 			switchConversation(newConvo);
+			
+			// Recreate MapBox from the traceroute
+			internalFrame = new MapBox(newConvo.geoList);
+			internalFrame.setVisible(true);
 			
 			String test = "555";
 

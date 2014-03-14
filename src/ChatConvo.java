@@ -1,15 +1,40 @@
-import javax.swing.text.*;
-import javax.net.ssl.*;
+/*
+ * This product includes GeoLite data created by MaxMind, available from
+  <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+ */
 
-import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
-
-import java.net.*;
-import java.security.cert.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
 import java.security.KeyStore;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
+
+import org.jdesktop.swingx.mapviewer.GeoPosition;
+
+import com.maxmind.geoip.Location;
+import com.maxmind.geoip.LookupService;
+import com.maxmind.geoip.regionName;
 
 /**
  * This class represents the chat conversation
@@ -38,7 +63,10 @@ public class ChatConvo {
 	
 	private static final int HEADER_SIZE = 10;
 	
+	// Traceroute to generate route 
+	private Traceroute tracer;
 	
+	public List<GeoPosition> geoList;
 
 	/**
 	 * Default Constructor
@@ -49,15 +77,17 @@ public class ChatConvo {
 	//	m_sendSock = null;
 		m_sslFactory = null;
 		m_sslSendSock = null;
+		tracer = new Traceroute();
 	}
 
 	/**
 	 * Constructor that takes in an IP for P2P
+	 * @throws IOException 
 	 */
-	ChatConvo(InetAddress addr, String username)
+	ChatConvo(InetAddress addr, String username) throws IOException
 	{
 		m_sslServerSockFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
-		m_sslServerSock = (SSLServerSocket) m_sslServerSockFactory.createServerSocket(41334);		
+		m_sslServerSock = (SSLServerSocket) m_sslServerSockFactory.createServerSocket(41334);
 	}
 
 	/**
@@ -67,6 +97,9 @@ public class ChatConvo {
 		m_context = new StyleContext();
 		m_chatConvo = new DefaultStyledDocument(m_context);
 
+		// Initialize tracer
+		tracer = new Traceroute(hostname);
+		
 		try {
 			SSLContext context = SSLContext.getInstance("TLS");
 			
@@ -158,6 +191,34 @@ public class ChatConvo {
 			m_sslSendSock = (SSLSocket) m_sslFactory.createSocket(hostname, port);
 			System.out.println("NIOOOOOOOOOO");
 			m_outStream = new DataOutputStream(m_sslSendSock.getOutputStream());
+			
+			//m_sslSendSock.getInetAddress().getHostName();
+			tracer.trace();
+			
+			// Get routeInfo from tracer, which is a list of IP addresses, and get the latitude, longitude of every IP using maxMind database. 
+			List<String> route = tracer.getRouteInfo();
+			
+			// Create Maxmind database
+			File database = new File("/Users/alickxu/Documents/cs176b");
+			LookupService reader = new LookupService(database);
+			List<Location> locList = new ArrayList<Location>();
+			geoList = new ArrayList<GeoPosition>();
+			
+			// Get list of all locations visited from traceroute
+			for(int i = 0; i < route.size(); i++)
+			{
+				String routeName = route.get(i);
+				Location loc = reader.getLocation(routeName);
+				locList.add(loc);				
+			}
+			
+			// Using latitude, longitude of every IP, Use MapBox to draw a route between each IP
+			// Create a list of GeoPositions using list of Locations
+			for(int j = 0; j < locList.size(); j++)
+			{
+				geoList.add(new GeoPosition(locList.get(j).latitude, locList.get(j).longitude));
+			}
+			
 
 			ChatServerListener listener = new ChatServerListener(m_sslSendSock, m_chatConvo);
 			

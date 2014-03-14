@@ -15,11 +15,12 @@
         <classpath>
             <pathelement path="bcprov-jdk15on-150.jar"/>
             <pathelement path="bcpkix-jdk15on-150.jar"/>
-	    			<pathelement path="jxmapviewer.jar"/>
-				    <pathelement path="jpcap.jar"/>
-	    			<pathelement path="examples.jar"/>
-						<pathelement path="commons-logging-1.1.3.jar"/>
-						<pathelement path="commons-skin-4.jar"/>
+	    <pathelement path="jxmapviewer.jar"/>
+	    <pathelement path="jpcap.jar"/>
+	    <pathelement path="examples.jar"/>
+	    <pathelement path="commons-logging-1.1.3.jar"/>
+	    <pathelement path="commons-skin-4.jar"/>
+	    <pathelement path="geoip-api-1.2.13-SNAPSHOT.jar"/>
         </classpath>
     </javac>
   </target>
@@ -39,11 +40,12 @@
             <pathelement location="${build}"/>
             <pathelement path="bcprov-jdk15on-150.jar"/>
             <pathelement path="bcpkix-jdk15on-150.jar"/>
-	    			<pathelement path="jxmapviewer.jar"/>
-	    			<pathelement path="jpcap.jar"/>
-	    			<pathelement path="examples.jar"/>
-						<pathelement path="commons-logging-1.1.3.jar"/>
-						<pathelement path="commons-skin-4.jar"/>
+	    <pathelement path="jxmapviewer.jar"/>
+	    <pathelement path="jpcap.jar"/>
+	    <pathelement path="examples.jar"/>
+	    <pathelement path="commons-logging-1.1.3.jar"/>
+	    <pathelement path="commons-skin-4.jar"/>
+	    <pathelement path="geoip-api-1.2.13-SNAPSHOT.jar"/>
           </classpath>
         </java>
   </target>
