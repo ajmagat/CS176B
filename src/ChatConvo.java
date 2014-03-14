@@ -1,6 +1,14 @@
 import javax.swing.text.*;
 import javax.net.ssl.*;
+
+import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+
 import java.net.*;
+import java.security.cert.*;
+import java.security.InvalidKeyException;
+import java.security.KeyStore;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.io.*;
 
 /**
@@ -49,25 +57,110 @@ public class ChatConvo {
 	ChatConvo(String hostname, int port) {
 		m_context = new StyleContext();
 		m_chatConvo = new DefaultStyledDocument(m_context);
-		System.out.println("PLEASE");
-		m_sslFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-System.out.println("WEREWRQW");
+
 		try {
+			SSLContext context = SSLContext.getInstance("TLS");
+			
+			
+			TrustManager tm = new X509TrustManager() {
+			    @Override
+				public void checkClientTrusted(X509Certificate[] chain,
+						String authType) throws CertificateException {
+					// Not used
+					
+				}
+
+				@Override
+				public void checkServerTrusted(X509Certificate[] chain,
+						String authType) throws CertificateException {
+					try{
+					// Create a keystore to hold private key and certificate
+					KeyStore ks = KeyStore.getInstance("JKS");
+					FileInputStream fos = new FileInputStream("custom_store.jks");
+					char [] password = {'p', 'p'};
+					ks.load(fos, password);
+					
+					if(ks.size() == 1)
+					{
+						//System.out.println()
+						System.out.println("ADDDDDINNG TO TRUST STORE");
+						KeyStore.Entry newEntry = new KeyStore.TrustedCertificateEntry(chain[0]);
+						ks.setEntry("superChatServer", newEntry, null);
+						FileOutputStream ploop = new FileOutputStream("custom_store.jks");
+						ks.store(ploop, "pp".toCharArray());
+						return;
+					}
+					else
+					{
+						try
+						{
+							System.out.println("CHECK THIS CERT DOEEEEEEEEEE");
+							Certificate checkCert = ks.getCertificate("superChatServer");
+						    chain[0].verify( ( checkCert.getPublicKey() ) );
+						    return;
+						}
+						catch (InvalidKeyException ike)
+						{
+							throw new CertificateException("Invalid Certificate");
+						}
+						catch (Exception e)
+						{
+							
+						}
+						
+					}
+						//System.out.println("IN THIS HOOOEEEE AGAIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+						
+						//chain[0].verify();
+
+					// Keystore name and password
+				//	FileOutputStream fos = new FileOutputStream("custom_store.jks");
+			//		char [] password = {'p', 'p'};
+					
+					// Store keystore
+				//	ks.store(fos, password);
+
+
+					}
+					catch (Exception e)
+					{
+						throw new CertificateException("Error Verifying Certificate"); 
+					}
+					
+					throw new CertificateException("Untrusted Certificate");
+				}
+
+
+				@Override
+				public X509Certificate[] getAcceptedIssuers() {
+					// Not used
+					return null;
+				}
+			};
+			
+			TrustManager [] tmList = new X509TrustManager[1];
+			tmList[0] = tm;
+			
+			context.init(null, tmList, null);
+			//m_sslFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			m_sslFactory = context.getSocketFactory();
+			
 			m_sslSendSock = (SSLSocket) m_sslFactory.createSocket(hostname, port);
 			System.out.println("NIOOOOOOOOOO");
 			m_outStream = new DataOutputStream(m_sslSendSock.getOutputStream());
-		//	m_sendSock = new Socket(hostname, port);
-		//	m_outStream = new DataOutputStream(m_sendSock.getOutputStream());
-		//	ChatServerListener listener = new ChatServerListener(m_sendSock,
-		//			m_chatConvo);
+
 			ChatServerListener listener = new ChatServerListener(m_sslSendSock, m_chatConvo);
 			
 			(new Thread(listener)).start();
-		} catch (UnknownHostException e) {
+		} catch (UnknownHostException uhe) {
 			System.out.println("Cannot find host " + hostname);
-		} catch (IOException e) {
+		} catch (IOException ioe) {
+			System.out.println(ioe);
+		} catch (Exception e) {
 			System.out.println(e);
 		}
+		
 	}
 
 	/**

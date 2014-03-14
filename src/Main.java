@@ -18,6 +18,9 @@ class Application {
 			// Set path to keystore
 			System.setProperty("javax.net.ssl.keyStore", "custom_store.jks");
 			System.setProperty("javax.net.ssl.keyStorePassword", "pp");
+			System.setProperty("javax.net.ssl.trustStore", "custom_store.jks");
+			System.setProperty("javax.net.ssl.trustStorePasword", "pp");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
