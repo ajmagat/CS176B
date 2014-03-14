@@ -45,7 +45,7 @@ public class ChatRoom extends JFrame implements ActionListener {
 	private String m_username = null;
 	private String m_roomType = null;
 	private ChatConvo m_p2pConvo = null;
-	
+
 	/**
 	 * Default Constructor
 	 */
@@ -69,24 +69,20 @@ public class ChatRoom extends JFrame implements ActionListener {
 		internalFrame = new MapBox();
 		m_convoList = new ArrayList<ChatConvo>();
 
-		
-
-
 		// Set some box related stuff
 		setTitle("ChatRoom");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(694, 600);
 
 		newBox.attachBtn(btnSubmit);
-		
+
 		// Create the MapBox
 		MapBox internalFrame = new MapBox();
-		//newBox.turnOff();
+		// newBox.turnOff();
 
 		internalFrame.setVisible(true);
 		JButton btnNewButton = new JButton();
-		if(m_roomType.equalsIgnoreCase("p2p"))
-		{
+		if (m_roomType.equalsIgnoreCase("p2p")) {
 			// Some sort of button
 			// Will create a chatconvo
 			btnNewButton = new JButton("Connect to IP");
@@ -95,127 +91,229 @@ public class ChatRoom extends JFrame implements ActionListener {
 			switchConversation(m_p2pConvo);
 		}
 
-		if(m_roomType.equalsIgnoreCase("mc"))
-		{
+		if (m_roomType.equalsIgnoreCase("mc")) {
 			// Some sort of button
-	//		ChatConvo newConvo = new ChatConvo("169-231-93-247.wireless.ucsb.edu", 12321, "bob");
-		//	switchConversation(newConvo);
+			// ChatConvo newConvo = new
+			// ChatConvo("169-231-93-247.wireless.ucsb.edu", 12321, "bob");
+			// switchConversation(newConvo);
 			btnNewButton = new JButton("Join Room");
 			btnNewButton.addActionListener(this);
 		}
-		
-
-		
-		JButton btnNewButton_1 = new JButton("New button");
 
 		/*************************************************/
-        /****          GUI STUFF DO NOT TOUCH         ****/
+		/**** GUI STUFF DO NOT TOUCH ****/
 		/*************************************************/
-		
+
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(newView, GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
-					.addGap(18)
-					.addComponent(internalFrame, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-							.addComponent(colorOptions, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(sizeOptions, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(chckbxItalic, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(chckbxBold, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
-							.addComponent(btnNewButton_1))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(newBox, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(18)
-									.addComponent(btnSubmit, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnNewButton)))))
-					.addGap(22))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(internalFrame, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(newView, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(25)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(colorOptions, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-								.addComponent(sizeOptions, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(26)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(chckbxItalic, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(chckbxBold, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(29)
-							.addComponent(newBox, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnNewButton_1)
-							.addGap(18)
-							.addComponent(btnNewButton)
-							.addGap(18)
-							.addComponent(btnSubmit, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
-		);
+		groupLayout
+				.setHorizontalGroup(groupLayout
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								groupLayout
+										.createSequentialGroup()
+										.addComponent(newView,
+												GroupLayout.DEFAULT_SIZE, 449,
+												Short.MAX_VALUE)
+										.addGap(18)
+										.addComponent(internalFrame,
+												GroupLayout.PREFERRED_SIZE,
+												213, GroupLayout.PREFERRED_SIZE)
+										.addContainerGap())
+						.addGroup(
+								Alignment.TRAILING,
+								groupLayout
+										.createSequentialGroup()
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.TRAILING)
+														.addGroup(
+																Alignment.LEADING,
+																groupLayout
+																		.createSequentialGroup()
+																		.addComponent(
+																				colorOptions,
+																				GroupLayout.PREFERRED_SIZE,
+																				124,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				sizeOptions,
+																				GroupLayout.PREFERRED_SIZE,
+																				123,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				chckbxItalic,
+																				GroupLayout.PREFERRED_SIZE,
+																				GroupLayout.DEFAULT_SIZE,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				chckbxBold,
+																				GroupLayout.PREFERRED_SIZE,
+																				GroupLayout.DEFAULT_SIZE,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED,
+																				155,
+																				Short.MAX_VALUE))
+														.addGroup(
+																groupLayout
+																		.createSequentialGroup()
+																		.addComponent(
+																				newBox,
+																				GroupLayout.PREFERRED_SIZE,
+																				448,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addGroup(
+																				groupLayout
+																						.createParallelGroup(
+																								Alignment.TRAILING)
+																						.addGroup(
+																								groupLayout
+																										.createSequentialGroup()
+																										.addGap(18)
+																										.addComponent(
+																												btnSubmit,
+																												GroupLayout.DEFAULT_SIZE,
+																												204,
+																												Short.MAX_VALUE))
+																						.addGroup(
+																								groupLayout
+																										.createSequentialGroup()
+																										.addPreferredGap(
+																												ComponentPlacement.RELATED)
+																										.addComponent(
+																												btnNewButton)))))
+										.addGap(22)));
+		groupLayout
+				.setVerticalGroup(groupLayout
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								groupLayout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.LEADING,
+																false)
+														.addComponent(
+																internalFrame,
+																GroupLayout.DEFAULT_SIZE,
+																GroupLayout.DEFAULT_SIZE,
+																Short.MAX_VALUE)
+														.addComponent(
+																newView,
+																GroupLayout.DEFAULT_SIZE,
+																322,
+																Short.MAX_VALUE))
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																groupLayout
+																		.createSequentialGroup()
+																		.addGap(25)
+																		.addGroup(
+																				groupLayout
+																						.createParallelGroup(
+																								Alignment.BASELINE)
+																						.addComponent(
+																								colorOptions,
+																								GroupLayout.PREFERRED_SIZE,
+																								24,
+																								GroupLayout.PREFERRED_SIZE)
+																						.addComponent(
+																								sizeOptions,
+																								GroupLayout.PREFERRED_SIZE,
+																								GroupLayout.DEFAULT_SIZE,
+																								GroupLayout.PREFERRED_SIZE)))
+														.addGroup(
+																groupLayout
+																		.createSequentialGroup()
+																		.addGap(26)
+																		.addGroup(
+																				groupLayout
+																						.createParallelGroup(
+																								Alignment.BASELINE)
+																						.addComponent(
+																								chckbxItalic,
+																								GroupLayout.PREFERRED_SIZE,
+																								GroupLayout.DEFAULT_SIZE,
+																								GroupLayout.PREFERRED_SIZE)
+																						.addComponent(
+																								chckbxBold,
+																								GroupLayout.PREFERRED_SIZE,
+																								GroupLayout.DEFAULT_SIZE,
+																								GroupLayout.PREFERRED_SIZE))))
+										.addPreferredGap(
+												ComponentPlacement.RELATED)
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																groupLayout
+																		.createSequentialGroup()
+																		.addGap(29)
+																		.addComponent(
+																				newBox,
+																				GroupLayout.DEFAULT_SIZE,
+																				148,
+																				Short.MAX_VALUE))
+														.addGroup(
+																groupLayout
+																		.createSequentialGroup()
+
+																		.addGap(18)
+																		.addComponent(
+																				btnNewButton)
+																		.addGap(18)
+																		.addComponent(
+																				btnSubmit,
+																				GroupLayout.PREFERRED_SIZE,
+																				36,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addContainerGap()))));
 		getContentPane().setLayout(groupLayout);
 		setVisible(true);
 		/*************************************************/
-        /****          GUI STUFF DO NOT TOUCH         ****/
+		/**** GUI STUFF DO NOT TOUCH ****/
 		/*************************************************/
 
 		this.getRootPane().setDefaultButton(btnSubmit.getButton());
-		
-		
-/*
-		try {
-			ChatConvo newConvo = new ChatConvo("169-231-93-247.wireless.ucsb.edu", 12321, "bob");
-			System.out.println(InetAddress.getLocalHost().getHostName());
-			switchConversation(newConvo);
-			
-<<<<<<< HEAD
-			// Recreate MapBox from the traceroute
-			internalFrame = new MapBox(newConvo.geoList);
-			internalFrame.setVisible(true);
-			
-			String test = "555";
 
-			final byte[] inBytes = test.getBytes("UTF-8");
-			System.out.println("Size in bytes " + inBytes.length);
-			for (byte b : inBytes) {
-				System.out.println("Byte: " + b);
-			}
-			String str = new String(inBytes, "UTF-8");
-			System.out.println("Bytes back to string: " + str);
-=======
->>>>>>> 847d04af708c57fa28facc005429b708beb177f5
-		} catch (IOException e) {
-			System.out.println(e);
-		}
-*/
-	/*	this.addWindowListener( new java.awt.event.WindowAdapter() {
-			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				closeAllConnections();
-				System.exit(0);
-			}
-			
-		});*/
+		/*
+		 * try { ChatConvo newConvo = new
+		 * ChatConvo("169-231-93-247.wireless.ucsb.edu", 12321, "bob");
+		 * System.out.println(InetAddress.getLocalHost().getHostName());
+		 * switchConversation(newConvo);
+		 * 
+		 * <<<<<<< HEAD // Recreate MapBox from the traceroute internalFrame =
+		 * new MapBox(newConvo.geoList); internalFrame.setVisible(true);
+		 * 
+		 * String test = "555";
+		 * 
+		 * final byte[] inBytes = test.getBytes("UTF-8");
+		 * System.out.println("Size in bytes " + inBytes.length); for (byte b :
+		 * inBytes) { System.out.println("Byte: " + b); } String str = new
+		 * String(inBytes, "UTF-8"); System.out.println("Bytes back to string: "
+		 * + str); ======= >>>>>>> 847d04af708c57fa28facc005429b708beb177f5 }
+		 * catch (IOException e) { System.out.println(e); }
+		 */
+		/*
+		 * this.addWindowListener( new java.awt.event.WindowAdapter() { public
+		 * void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		 * closeAllConnections(); System.exit(0); }
+		 * 
+		 * });
+		 */
 	}
 
 	/**
@@ -226,58 +324,49 @@ public class ChatRoom extends JFrame implements ActionListener {
 		newView.setChatConvo(newConvo);
 		newBox.setChatConvo(newConvo);
 	}
-	
-	public void makeP2PConvo(String hostname)
-	{
-		try
-		{
+
+	public void makeP2PConvo(String hostname) {
+		try {
 			newBox.turnOn();
-		    m_p2pConvo.createSSLSocketConnection(hostname, DEFAULT_PORT);
-		}
-		catch (Exception e)
-		{
+			m_p2pConvo.createSSLSocketConnection(hostname, DEFAULT_PORT);
+		} catch (Exception e) {
 			System.out.println("Error connecting");
 			e.printStackTrace();
 		}
 	}
-	
-	public void makeMCConvo(int portNumber)
-	{
-		try
-		{
-			ChatConvo newConvo = new ChatConvo(SERVER_IP, portNumber, m_username);
+
+	public void makeMCConvo(int portNumber) {
+		try {
+			ChatConvo newConvo = new ChatConvo(SERVER_IP, portNumber,
+					m_username);
 			switchConversation(newConvo);
 			newBox.turnOn();
-			
+
 			// Recreate MapBox from the traceroute
 			internalFrame = new MapBox(newConvo.geoList);
 			internalFrame.setVisible(true);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println("Error joining room");
 			e.printStackTrace();
 		}
 	}
-	
-	public void closeAllConnections()
-	{
-		for(ChatConvo c : m_convoList)
-		{
+
+	public void closeAllConnections() {
+		for (ChatConvo c : m_convoList) {
 			c.closeConvo();
 		}
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(m_roomType.equals("p2p"))
-		{
-			String ipAddr = JOptionPane.showInputDialog(null, "Enter Target IP: ");
+		if (m_roomType.equals("p2p")) {
+			String ipAddr = JOptionPane.showInputDialog(null,
+					"Enter Target IP: ");
 			makeP2PConvo(ipAddr);
 		}
-		if(m_roomType.equals("mc"))
-		{
-			String message = JOptionPane.showInputDialog(null, "Enter Room Number (8000 - 10000): ");
+		if (m_roomType.equals("mc")) {
+			String message = JOptionPane.showInputDialog(null,
+					"Enter Room Number (8000 - 10000): ");
 			int roomNum = Integer.parseInt(message);
 			makeMCConvo(roomNum);
 		}

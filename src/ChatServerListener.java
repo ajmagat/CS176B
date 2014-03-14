@@ -5,7 +5,6 @@ import java.net.*;
 import java.awt.Color;
 import java.io.*;
 
-
 // This class will take a socket and listen for all incoming messages
 public class ChatServerListener implements Runnable {
 	private DataInputStream m_inStream;
@@ -19,7 +18,8 @@ public class ChatServerListener implements Runnable {
 	}
 
 	/**
-	 * Constructor that takes in a client socket and a StyledDocument representing current convo
+	 * Constructor that takes in a client socket and a StyledDocument
+	 * representing current convo
 	 */
 	ChatServerListener(Socket clientSock, StyledDocument chatConvo) {
 		try {
@@ -31,7 +31,6 @@ public class ChatServerListener implements Runnable {
 		m_chatConvo = chatConvo;
 	}
 
-	
 	@Override
 	public void run() {
 		try {
@@ -40,7 +39,7 @@ public class ChatServerListener implements Runnable {
 				byte[] msgType = new byte[1];
 				m_inStream.readFully(msgType);
 				String str = new String(msgType, "UTF-8");
-				
+
 				System.out.println("The type is " + str);
 				// Receiving message
 				if (str.equals("1")) {
@@ -69,7 +68,7 @@ public class ChatServerListener implements Runnable {
 					m_inStream.readFully(nmeSize);
 					String nmeSizeStr = new String(nmeSize, "UTF-8");
 					int nmeSizeInt = Integer.parseInt(nmeSizeStr);
-					
+
 					// Get size of message
 					byte[] msgSize = new byte[10];
 					m_inStream.readFully(msgSize);
@@ -77,16 +76,16 @@ public class ChatServerListener implements Runnable {
 					int sizeInt = Integer.parseInt(sizeStr);
 
 					// Get username
-					byte [] name = new byte[nmeSizeInt];
+					byte[] name = new byte[nmeSizeInt];
 					m_inStream.readFully(name);
-					
+
 					// Get message
 					byte[] msg = new byte[sizeInt];
 					m_inStream.readFully(msg);
 
 					String userName = new String(name, "UTF-8");
 					String finalMsg = new String(msg, "UTF-8");
-					
+
 					finalMsg = userName + finalMsg;
 
 					// Set attributes
@@ -105,16 +104,11 @@ public class ChatServerListener implements Runnable {
 			System.out.println("Error receiving messsage\n" + e);
 		} catch (Exception o) {
 
-		}
-		finally
-		{
-			try
-			{
+		} finally {
+			try {
 				m_inStream.close();
-			}
-			catch (Exception e)
-			{
-				
+			} catch (Exception e) {
+
 			}
 		}
 	}

@@ -27,7 +27,7 @@ public class ChatBox extends JPanel {
 
 	// Attached submit button
 	protected ChatSubmit m_submitBtn;
-	
+
 	// Hold user name
 	protected String m_username;
 
@@ -64,7 +64,7 @@ public class ChatBox extends JPanel {
 
 		// Hold username
 		m_username = username;
-		
+
 		// Create input area
 		m_inputArea = new JTextPane();
 		m_inputArea.setEditable(true);
@@ -201,7 +201,7 @@ public class ChatBox extends JPanel {
 	 */
 	public void setBold(boolean bold) {
 		m_bold = bold;
-		
+
 		// Set bold for input area
 		SimpleAttributeSet newAttr = new SimpleAttributeSet();
 		StyleConstants.setBold(newAttr, m_bold);
@@ -213,12 +213,13 @@ public class ChatBox extends JPanel {
 	 */
 	public void setItalic(boolean italic) {
 		m_italic = italic;
-		
+
 		// Set bold for input area
 		SimpleAttributeSet newAttr = new SimpleAttributeSet();
 		StyleConstants.setItalic(newAttr, m_italic);
 		m_inputArea.setCharacterAttributes(newAttr, false);
 	}
+
 	/**
 	 * Method to submit text from input area
 	 */
@@ -226,7 +227,7 @@ public class ChatBox extends JPanel {
 		System.out.println("DOING STUFF HERE");
 		// Get text from text field
 		String text = m_inputArea.getText() + newline;
-		
+
 		// Get length of username plus 2 for ": "
 		String nameLength = Integer.toString(m_username.length() + 2);
 
@@ -272,16 +273,15 @@ public class ChatBox extends JPanel {
 		// User name
 		StringBuilder nameSizeBuilder = new StringBuilder();
 		String nameSize = Integer.toString((m_username.length() + 2));
-		if(nameSize.length() < 2)
-		{
+		if (nameSize.length() < 2) {
 			nameSizeBuilder.append(0);
 		}
 		nameSizeBuilder.append(nameLength);
 		msgHeader.append(nameSizeBuilder.toString());
-		
-		
+
 		// Get message size
-		String msgSize = Integer.toString((text.length() - (m_username.length() + 2)));
+		String msgSize = Integer
+				.toString((text.length() - (m_username.length() + 2)));
 		StringBuilder msgSizeBuilder = new StringBuilder();
 		for (int j = 0; j < (10 - msgSize.length()); j++) {
 			msgSizeBuilder.append("0");

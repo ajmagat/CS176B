@@ -6,59 +6,60 @@ import java.io.*;
 import javax.net.ssl.*;
 
 public class ChatP2PThread implements Runnable {
-    public DataOutputStream m_outStream;
-    private DataInputStream m_inStream;
-    private SSLServerSocket m_sSock;
-    private ChatConvo m_convo;
-    private static final int MAX_CONNECTIONS = 1;
+	public DataOutputStream m_outStream;
+	private DataInputStream m_inStream;
+	private SSLServerSocket m_sSock;
+	private ChatConvo m_convo;
+	private static final int MAX_CONNECTIONS = 1;
 
-    public ChatP2PThread()
-    {
-        m_outStream = null;
-        m_inStream = null;
-        m_sSock = null;
-        m_convo = null;
-    }
+	public ChatP2PThread() {
+		m_outStream = null;
+		m_inStream = null;
+		m_sSock = null;
+		m_convo = null;
+	}
 
-    public ChatP2PThread(SSLServerSocket ss, ChatConvo convo)
-    {
-        m_outStream = null;
-        m_inStream = null;
-        m_sSock = ss;
-        m_convo = convo;
-    }
+	public ChatP2PThread(SSLServerSocket ss, ChatConvo convo) {
+		m_outStream = null;
+		m_inStream = null;
+		m_sSock = ss;
+		m_convo = convo;
+	}
 
-    @Override
-    public void run()
-    {
-        int connection_count = 0;
+	@Override
+	public void run() {
+		int connection_count = 0;
 
-        while (true) {
-            Socket s = null;
-            try {
-                // Wait for a connection and accept
-                s = m_sSock.accept();
-                    if (connection_count >= MAX_CONNECTIONS) {
-                    // tell user we can't accept them
+		while (true) {
+			Socket s = null;
+			try {
+				// Wait for a connection and accept
+				s = m_sSock.accept();
+				if (connection_count >= MAX_CONNECTIONS) {
+					// tell user we can't accept them
 
-                    // Close socket
-                    s.close();
+					// Close socket
+					s.close();
 
-                } 
-                
-                // Create a thread that will listen for messages from the other client
-                ChatServerListener listener = new ChatServerListener(s, m_convo.getChatConvo());
-                (new Thread(listener)).start();
-System.out.println("HAVE AN OUTPUT STREAM");
-                // Set the convos output stream
-                m_convo.setOutputStream(new DataOutputStream(s.getOutputStream()));
+				}
 
-                // Clear any text in m_convo
-             //   (m_convo.getChatConvo()).remove(0, (m_convo.getChatConvo().getLength()));
+				// Create a thread that will listen for messages from the other
+				// client
+				ChatServerListener listener = new ChatServerListener(s,
+						m_convo.getChatConvo());
+				(new Thread(listener)).start();
+				System.out.println("HAVE AN OUTPUT STREAM");
+				// Set the convos output stream
+				m_convo.setOutputStream(new DataOutputStream(s
+						.getOutputStream()));
 
-            } catch (Exception e) {
-                System.out.println("Connection cannot be established\n" + e);
-            }
-        }   
-    }
+				// Clear any text in m_convo
+				// (m_convo.getChatConvo()).remove(0,
+				// (m_convo.getChatConvo().getLength()));
+
+			} catch (Exception e) {
+				System.out.println("Connection cannot be established\n" + e);
+			}
+		}
+	}
 }
