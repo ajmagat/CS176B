@@ -6,7 +6,7 @@ import javax.net.ssl.*;
 public class ChatThread extends Thread {
 	public DataOutputStream m_outStream;
 	private DataInputStream m_inStream;
-	private Socket m_clientSock;
+	private SSLSocket m_clientSock;
 	private ChatThread[] m_connections;
 	private ChatServer m_server;
 
@@ -86,10 +86,38 @@ public class ChatThread extends Thread {
 						}
 					}
 				}
+				
+				
 
-			}
+			} // end while
+
 		} catch (Exception e) {
 			// send error to client
+			try
+			{
+				System.out.println("START CLOSING =========================");
+				m_outStream.close();
+				m_inStream.close();
+				m_clientSock.close();
+			}
+			catch (Exception e2)
+			{
+				System.out.println("Could not close connection");
+			}
+
+		}
+		finally
+		{
+			try
+			{
+			m_outStream.close();
+			m_inStream.close();
+			m_clientSock.close();
+			}
+			catch (Exception e3)
+			{
+				System.out.println("Could not close connection");
+			}
 		}
 	}
 
