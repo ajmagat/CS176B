@@ -15,6 +15,9 @@
         <classpath>
             <pathelement path="bcprov-jdk15on-150.jar"/>
             <pathelement path="bcpkix-jdk15on-150.jar"/>
+	    <pathelement path="jxmapviewer.jar"/>
+	    <pathelement path="jpcap.jar"/>
+	    <pathelement path="examples.jar"/>
         </classpath>
     </javac>
   </target>
@@ -34,6 +37,9 @@
             <pathelement location="${build}"/>
             <pathelement path="bcprov-jdk15on-150.jar"/>
             <pathelement path="bcpkix-jdk15on-150.jar"/>
+	    <pathelement path="jxmapviewer.jar"/>
+	    <pathelement path="jpcap.jar"/>
+	    <pathelement path="examples.jar"/>
           </classpath>
         </java>
   </target>
