@@ -99,6 +99,17 @@ public class ChatThread extends Thread {
 				m_outStream.close();
 				m_inStream.close();
 				m_clientSock.close();
+				synchronized (this)
+				{
+					for(int i = 0; i < m_connections.length; i++)
+					{
+						if (m_connections[i] == this)
+						{
+							m_connections = null;
+						}
+					}
+				}
+				System.out.println("END CLOSING ============================");
 			}
 			catch (Exception e2)
 			{
