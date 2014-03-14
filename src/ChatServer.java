@@ -9,7 +9,7 @@ public class ChatServer {
 	private static final int MAX_CONNECTIONS = 10;
 	private static final int DEFAULT_PORT = 8080;
 	private ChatThread[] m_connections;
-	private ServerSocket m_serverSock;
+	//private ServerSocket m_serverSock;
 	private SSLServerSocketFactory m_sslServerSockFactory;
 	private SSLServerSocket m_sslServerSock;
 
@@ -18,10 +18,10 @@ public class ChatServer {
 	 */
 	ChatServer() {
 		try {
-			m_serverSock = new ServerSocket(DEFAULT_PORT);
+		//	m_serverSock = new ServerSocket(DEFAULT_PORT);
 			m_connections = new ChatThread[MAX_CONNECTIONS];
 			m_sslServerSockFactory = null;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println("Chat Server failed to start up " + e);
 		}
 	}
@@ -31,7 +31,7 @@ public class ChatServer {
 	 */
 	ChatServer(int port) {
 		try {
-			m_serverSock = new ServerSocket(port);
+		//	m_serverSock = new ServerSocket(port);
 			m_connections = new ChatThread[MAX_CONNECTIONS];
 			m_sslServerSockFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 			m_sslServerSock = (SSLServerSocket) m_sslServerSockFactory.createServerSocket(port);
