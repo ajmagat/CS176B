@@ -29,7 +29,7 @@
   
   <target name="run" depends="compile" description="run application" >
         <java classname="Application" fork="true">
-<jvmarg line="-Djavax.net.debug=ssl" />
+<!--<jvmarg line="-Djavax.net.debug=ssl" /> -->
           <classpath>
             <pathelement location="${build}"/>
             <pathelement path="bcprov-jdk15on-150.jar"/>
