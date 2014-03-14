@@ -57,7 +57,8 @@ public class ChatRoom extends JFrame implements ActionListener {
 	 * Constructor that takes in a username and roomType
 	 */
 	ChatRoom(String username, String roomType) {
-
+		m_username = username;
+		m_roomType = roomType;
 		newView = new ChatView();
 		newBox = new ChatBox(newView, m_username);
 		colorOptions = new ChatOptions("Color", newBox);
@@ -67,12 +68,9 @@ public class ChatRoom extends JFrame implements ActionListener {
 		chckbxBold = new ChatCheckBox("Bold", newBox);
 		internalFrame = new MapBox();
 		m_convoList = new ArrayList<ChatConvo>();
-		m_username = null;
-		m_roomType = null;
-		m_p2pConvo = null;
+
 		
-		m_username = username;
-		m_roomType = roomType;
+
 
 		// Set some box related stuff
 		setTitle("ChatRoom");

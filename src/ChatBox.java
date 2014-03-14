@@ -223,6 +223,7 @@ public class ChatBox extends JPanel {
 	 * Method to submit text from input area
 	 */
 	public void submitInputText() {
+		System.out.println("DOING STUFF HERE");
 		// Get text from text field
 		String text = m_inputArea.getText() + newline;
 		
@@ -230,7 +231,7 @@ public class ChatBox extends JPanel {
 		String nameLength = Integer.toString(m_username.length() + 2);
 
 		// Create full message
-		text = nameLength + text;
+		text = m_username + ": " + text;
 		// Get underlying document of the ChatView object
 		StyledDocument doc = m_currentConvo.getChatConvo();
 
@@ -275,7 +276,7 @@ public class ChatBox extends JPanel {
 		{
 			nameSizeBuilder.append(0);
 		}
-		nameSizeBuilder.append(nameSize.length());
+		nameSizeBuilder.append(nameLength);
 		msgHeader.append(nameSizeBuilder.toString());
 		
 		
@@ -292,7 +293,7 @@ public class ChatBox extends JPanel {
 
 		// Create message header as string
 		String msgHeaderStr = msgHeader.toString();
-		System.out.println("I SAY SIZE IS " + msgSize);
+		System.out.println("I SAY " + msgHeaderStr);
 		m_currentConvo.sendMessage(msgHeaderStr, text);
 
 		// Insert the text into the client's viewing area

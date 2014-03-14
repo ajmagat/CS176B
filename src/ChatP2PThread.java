@@ -49,7 +49,7 @@ public class ChatP2PThread implements Runnable {
                 // Create a thread that will listen for messages from the other client
                 ChatServerListener listener = new ChatServerListener(s, m_convo.getChatConvo());
                 (new Thread(listener)).start();
-
+System.out.println("HAVE AN OUTPUT STREAM");
                 // Set the convos output stream
                 m_convo.setOutputStream(new DataOutputStream(s.getOutputStream()));
 
