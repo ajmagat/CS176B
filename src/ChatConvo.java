@@ -33,7 +33,12 @@ public class ChatConvo {
 	// Input stream to receive response from connection
 	private DataInputStream m_inStream;
 
+	private SSLServerSocketFactory m_sslServerSockFactory;
+	private SSLServerSocket m_sslServerSock;
+	
 	private static final int HEADER_SIZE = 10;
+	
+	
 
 	/**
 	 * Default Constructor
@@ -47,14 +52,18 @@ public class ChatConvo {
 	}
 
 	/**
-	 * Constructor that takes in two participants WIP
+	 * Constructor that takes in an IP for P2P
 	 */
-	// ChatConvo(two people)
+	ChatConvo(InetAddress addr, String username)
+	{
+		m_sslServerSockFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+		m_sslServerSock = (SSLServerSocket) m_sslServerSockFactory.createServerSocket(41334);		
+	}
 
 	/**
-	 * Constructor that takes in the address of a server and port number
+	 * Constructor that takes in the address of a server and port number for multiple chat
 	 */
-	ChatConvo(String hostname, int port) {
+	ChatConvo(String hostname, int port, String username) {
 		m_context = new StyleContext();
 		m_chatConvo = new DefaultStyledDocument(m_context);
 
@@ -250,12 +259,13 @@ public class ChatConvo {
 				m_outStream.write(msgBytes);
 			} catch (IOException e) {
 				System.out.println("Unsupported encoding\n " + e);
+				return;
 			}
 			
-			m_inStream.close();
-			m_outStream.close();
-			m_sslSendSock.close();
-		} catch (IOException e) {
+		//	m_inStream.close();
+		//	m_outStream.close();
+		//	m_sslSendSock.close();
+		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}

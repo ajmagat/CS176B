@@ -109,7 +109,6 @@ public class ChatServerListener implements Runnable {
 			return Color.BLACK;
 		}
 
-		// NEEDS A m_COLOR
 		if (colorCode.equals("1")) {
 			return Color.MAGENTA;
 		}

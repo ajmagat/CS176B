@@ -152,7 +152,7 @@ public class ChatRoom extends JFrame {
 		this.getRootPane().setDefaultButton(btnSubmit.getButton());
 
 		try {
-			ChatConvo newConvo = new ChatConvo("169-231-93-247.wireless.ucsb.edu", 12321);
+			ChatConvo newConvo = new ChatConvo("169-231-93-247.wireless.ucsb.edu", 12321, "bob");
 			System.out.println(InetAddress.getLocalHost().getHostName());
 			// ChatConvo newConvo = new ChatConvo();
 			switchConversation(newConvo);
