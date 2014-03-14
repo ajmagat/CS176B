@@ -2,11 +2,15 @@ import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.io.*;
+
 import javax.swing.JCheckBox;
+
 import java.net.*;
 import javax.swing.JPanel;
 import javax.swing.JInternalFrame;
+import java.util.ArrayList;
 
 /**
  * This represents the overall chat applications
@@ -23,6 +27,9 @@ public class ChatRoom extends JFrame {
 	private ChatSubmit btnSubmit = new ChatSubmit(newBox);
 	private ChatCheckBox chckbxItalic = new ChatCheckBox("Italic", newBox);
 	private ChatCheckBox chckbxBold = new ChatCheckBox("Bold", newBox);
+	
+	private ArrayList<ChatConvo> m_convoList = new ArrayList<ChatConvo>();
+	
 	/**
 	 * Default Constructor
 	 */
@@ -114,13 +121,30 @@ public class ChatRoom extends JFrame {
 			System.out.println(e);
 		}
 
+		this.addWindowListener( new java.awt.event.WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				closeAllConnections();
+				System.exit(0);
+			}
+			
+		});
 	}
 
 	/**
 	 * Method that will switch to a conversation between two or more people
 	 */
 	public void switchConversation(ChatConvo newConvo) {
+		m_convoList.add(newConvo);
 		newView.setChatConvo(newConvo);
 		newBox.setChatConvo(newConvo);
 	}
+	
+	public void closeAllConnections()
+	{
+		for(ChatConvo c : m_convoList)
+		{
+			c.closeConvo();
+		}
+	}
+
 }

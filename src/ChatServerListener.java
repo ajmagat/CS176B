@@ -91,6 +91,17 @@ public class ChatServerListener implements Runnable {
 		} catch (Exception o) {
 
 		}
+		finally
+		{
+			try
+			{
+				m_inStream.close();
+			}
+			catch (Exception e)
+			{
+				
+			}
+		}
 	}
 
 	private Color getColorFromCode(String colorCode) {

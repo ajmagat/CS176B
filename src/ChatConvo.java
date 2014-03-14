@@ -238,6 +238,20 @@ public class ChatConvo {
 	 */
 	public void closeConvo() {
 		try {
+			StringBuilder messageBuilder = new StringBuilder();
+			
+			messageBuilder.append("9");
+			// Make the message a string
+			String msgStr = messageBuilder.toString();
+
+			// Turn string into a byte array and send
+			try {
+				byte[] msgBytes = msgStr.getBytes("UTF-8");
+				m_outStream.write(msgBytes);
+			} catch (IOException e) {
+				System.out.println("Unsupported encoding\n " + e);
+			}
+			
 			m_inStream.close();
 			m_outStream.close();
 			m_sslSendSock.close();
