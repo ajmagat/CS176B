@@ -23,7 +23,7 @@ public class ChatOptions extends JPanel implements ActionListener {
 	 */
 	ChatOptions() {
 		m_comboBox = new JComboBox<String>();
-		m_comboBox = null;
+		m_boxType = null;
 	}
 
 	/**

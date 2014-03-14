@@ -191,19 +191,28 @@ public class ChatBox extends JPanel {
 	}
 
 	/**
-	 * Setter method to set text style
+	 * Setter method to set bold or italic
 	 */
-	public void setTextStyle(boolean bold, boolean italic) {
+	public void setBold(boolean bold) {
 		m_bold = bold;
-		m_italic = italic;
-
-		// Set bold/italic for input area
+		
+		// Set bold for input area
 		SimpleAttributeSet newAttr = new SimpleAttributeSet();
 		StyleConstants.setBold(newAttr, m_bold);
-		StyleConstants.setItalic(newAttr, m_italic);
 		m_inputArea.setCharacterAttributes(newAttr, false);
 	}
 
+	/**
+	 * Setter method to set bold or italic
+	 */
+	public void setItalic(boolean italic) {
+		m_italic = italic;
+		
+		// Set bold for input area
+		SimpleAttributeSet newAttr = new SimpleAttributeSet();
+		StyleConstants.setItalic(newAttr, m_italic);
+		m_inputArea.setCharacterAttributes(newAttr, false);
+	}
 	/**
 	 * Method to submit text from input area
 	 */
