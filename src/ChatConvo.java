@@ -178,6 +178,7 @@ public class ChatConvo {
 								FileOutputStream ploop = new FileOutputStream(
 										"custom_store.jks");
 								ks.store(ploop, "pp".toCharArray());
+								return;
 							}
 						} else {
 							try {
