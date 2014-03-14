@@ -19,7 +19,9 @@ public class ChatRoom extends JFrame {
 	private ChatOptions colorOptions = new ChatOptions("Color", newBox);
 	private ChatOptions sizeOptions = new ChatOptions("Size", newBox);
 	private ChatSubmit btnSubmit = new ChatSubmit(newBox);
+	private ChatCheckBox chckbxItalic = new ChatCheckBox("Italic", newBox);
 
+	private ChatCheckBox chckbxBold = new ChatCheckBox("Bold", newBox);
 	/**
 	 * Default Constructor
 	 */
@@ -38,9 +40,7 @@ public class ChatRoom extends JFrame {
 		/* GUI layout stuff. Probably should never touch */
 		/*************************************************/
 
-		JCheckBox chckbxItalic = new JCheckBox("Italic");
 
-		JCheckBox chckbxBold = new JCheckBox("Bold");
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout
 				.createParallelGroup(Alignment.LEADING)
