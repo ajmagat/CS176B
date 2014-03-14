@@ -8,6 +8,8 @@ import java.io.*;
 import javax.swing.JCheckBox;
 
 import java.net.*;
+import javax.swing.JPanel;
+import javax.swing.JInternalFrame;
 import java.util.ArrayList;
 
 /**
@@ -24,7 +26,6 @@ public class ChatRoom extends JFrame {
 	private ChatOptions sizeOptions = new ChatOptions("Size", newBox);
 	private ChatSubmit btnSubmit = new ChatSubmit(newBox);
 	private ChatCheckBox chckbxItalic = new ChatCheckBox("Italic", newBox);
-
 	private ChatCheckBox chckbxBold = new ChatCheckBox("Bold", newBox);
 	
 	private ArrayList<ChatConvo> m_convoList = new ArrayList<ChatConvo>();
@@ -36,115 +37,65 @@ public class ChatRoom extends JFrame {
 		// Set some box related stuff
 		setTitle("ChatRoom");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(NUM_PIXELS, NUM_PIXELS);
+		setSize(694, 600);
 
 		newBox.attachBtn(btnSubmit);
-
-		// ChatBox should be uneditable for now
-		// newBox.turnOff();
-
-		/*************************************************/
-		/* GUI layout stuff. Probably should never touch */
-		/*************************************************/
+		
+		MapBox internalFrame = new MapBox();
+		internalFrame.setVisible(true);
 
 
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout
-				.createParallelGroup(Alignment.LEADING)
-				.addComponent(newView, GroupLayout.DEFAULT_SIZE, 592,
-						Short.MAX_VALUE)
-				.addGroup(
-						groupLayout
-								.createSequentialGroup()
-								.addComponent(newBox,
-										GroupLayout.PREFERRED_SIZE, 448,
-										GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(btnSubmit,
-										GroupLayout.DEFAULT_SIZE, 104,
-										Short.MAX_VALUE).addGap(22))
-				.addGroup(
-						groupLayout
-								.createSequentialGroup()
-								.addComponent(colorOptions,
-										GroupLayout.PREFERRED_SIZE, 124,
-										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(sizeOptions,
-										GroupLayout.PREFERRED_SIZE, 123,
-										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(chckbxItalic)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(chckbxBold).addGap(206)));
-		groupLayout
-				.setVerticalGroup(groupLayout
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								groupLayout
-										.createSequentialGroup()
-										.addComponent(newView,
-												GroupLayout.PREFERRED_SIZE,
-												322, GroupLayout.PREFERRED_SIZE)
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addGap(25)
-																		.addGroup(
-																				groupLayout
-																						.createParallelGroup(
-																								Alignment.BASELINE)
-																						.addComponent(
-																								colorOptions,
-																								GroupLayout.PREFERRED_SIZE,
-																								24,
-																								GroupLayout.PREFERRED_SIZE)
-																						.addComponent(
-																								sizeOptions,
-																								GroupLayout.PREFERRED_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.PREFERRED_SIZE)))
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addGap(26)
-																		.addGroup(
-																				groupLayout
-																						.createParallelGroup(
-																								Alignment.BASELINE)
-																						.addComponent(
-																								chckbxItalic)
-																						.addComponent(
-																								chckbxBold))))
-										.addPreferredGap(
-												ComponentPlacement.RELATED)
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addGap(29)
-																		.addComponent(
-																				newBox,
-																				GroupLayout.DEFAULT_SIZE,
-																				166,
-																				Short.MAX_VALUE))
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addGap(66)
-																		.addComponent(
-																				btnSubmit,
-																				GroupLayout.PREFERRED_SIZE,
-																				36,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addContainerGap()))));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(newView, GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(internalFrame, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(newBox, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btnSubmit, GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+					.addGap(22))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(colorOptions, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(sizeOptions, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(chckbxItalic, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(chckbxBold, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(206))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(internalFrame, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(newView, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(25)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(colorOptions, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(sizeOptions, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(26)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(chckbxItalic, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(chckbxBold, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(29)
+							.addComponent(newBox, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(66)
+							.addComponent(btnSubmit, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
+		);
 		getContentPane().setLayout(groupLayout);
 		setVisible(true);
 		/*************************************************/
@@ -156,7 +107,7 @@ public class ChatRoom extends JFrame {
 			System.out.println(InetAddress.getLocalHost().getHostName());
 			// ChatConvo newConvo = new ChatConvo();
 			switchConversation(newConvo);
-
+			
 			String test = "555";
 
 			final byte[] inBytes = test.getBytes("UTF-8");
