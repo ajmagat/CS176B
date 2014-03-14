@@ -87,6 +87,10 @@ public class ChatThread extends Thread {
 					}
 				}
 				
+				if (str.equals("9"))
+				{
+					break;
+				}
 				
 
 			} // end while
@@ -121,9 +125,19 @@ public class ChatThread extends Thread {
 		{
 			try
 			{
-			m_outStream.close();
-			m_inStream.close();
-			m_clientSock.close();
+				m_outStream.close();
+				m_inStream.close();
+				m_clientSock.close();
+				synchronized (this)
+				{
+					for(int i = 0; i < m_connections.length; i++)
+					{
+						if (m_connections[i] == this)
+						{
+							m_connections = null;
+						}
+					}
+				}
 			}
 			catch (Exception e3)
 			{
