@@ -27,7 +27,7 @@ class Application {
 
 				if (!jks.exists()) {
 					CertificateMaker newCert = new CertificateMaker();
-					newCert.createKeysAndCertificate("client", InetAddress.getLocalHost().getHostName());
+					newCert.createKeysAndCertificate("client", InetAddress.getLocalHost().getHostName(), "custom_store.jks");
 				}
 
 				// Set path to keystore
@@ -41,14 +41,24 @@ class Application {
 				{
 					// Open up designated chat room
 					String username = JOptionPane.showInputDialog(null, "Enter User Name");
-					//String ip = JOptionPane.showInputDialog(null, "Enter Invite IP");
+
+					if(username == null)
+					{
+						return;
+					}
+
 					ChatRoom p2pChatRoom = new ChatRoom(username, "p2p");	
 				}
 				
 				if(message.equalsIgnoreCase("multiple chat"))
 				{	
 					String username = JOptionPane.showInputDialog(null, "Enter User Name");
-					//String roomNumber = JOptionPane.showInputDialog(null, "Enter Room Number (8000 - 10000)");
+
+					if(username == null)
+					{
+						return;
+					}
+
 					ChatRoom mcChatRoom = new ChatRoom(username, "mc");
 				}
 

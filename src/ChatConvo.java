@@ -156,12 +156,12 @@ public class ChatConvo {
 								.getName());
 
 						ipAlias = ipAlias.substring(3, ipAlias.length());
-						// System.out.println("ADSFASDFAFDFADS " + ipAlias);
+
 						Certificate checkCert = ks.getCertificate(ipAlias);
 
 						if (checkCert == null) {
 							// Custom button text
-							Object[] options = { "Yes, please", "No, thanks" };
+							Object[] options = { "Yes", "No" };
 							int n = JOptionPane
 									.showOptionDialog(
 											null,
@@ -182,8 +182,6 @@ public class ChatConvo {
 							}
 						} else {
 							try {
-								System.out
-										.println("CHECK THIS CERT DOEEEEEEEEEE");
 								chain[0].verify((checkCert.getPublicKey()));
 								return;
 							} catch (InvalidKeyException ike) {

@@ -25,9 +25,8 @@ public class CertificateMaker {
 
 	}
 
-	public void createKeysAndCertificate(String sc, String ip) {
+	public void createKeysAndCertificate(String sc, String ip, String storeName) {
 		try {
-			System.out.println("===================================");
 			// Adds the Bouncy castle provider to java security
 			Security.addProvider(new BouncyCastleProvider());
 
@@ -93,17 +92,13 @@ public class CertificateMaker {
 			ks.setKeyEntry(sc + "/" + ip, keyPair.getPrivate(), new char[] {'p', 'p'}, chain);
 
 			// Keystore name and password
-			FileOutputStream fos = new FileOutputStream("custom_store.jks");
+			FileOutputStream fos = new FileOutputStream(storeName);
 			char [] password = {'p', 'p'};
 			
 			// Store keystore
 			ks.store(fos, password);
-		
-			System.out.println("===================================");
-		}
-
-		catch (Exception e) {
-			System.out.println("YO " + e);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

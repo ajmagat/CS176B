@@ -48,7 +48,7 @@ public class ChatP2PThread implements Runnable {
 				ChatServerListener listener = new ChatServerListener(s,
 						m_convo.getChatConvo());
 				(new Thread(listener)).start();
-				System.out.println("HAVE AN OUTPUT STREAM");
+
 				// Set the convos output stream
 				m_convo.setOutputStream(new DataOutputStream(s
 						.getOutputStream()));
@@ -60,6 +60,15 @@ public class ChatP2PThread implements Runnable {
 			} catch (Exception e) {
 				System.out.println("Connection cannot be established\n" + e);
 			}
+            finally {
+                try {
+                    m_sSock.close();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
 		}
 	}
 }

@@ -78,13 +78,12 @@ public class ChatRoom extends JFrame implements ActionListener {
 
 		// Create the MapBox
 		MapBox internalFrame = new MapBox();
-		// newBox.turnOff();
+		newBox.turnOff();
 
 		internalFrame.setVisible(true);
 		JButton btnNewButton = new JButton();
 		if (m_roomType.equalsIgnoreCase("p2p")) {
-			// Some sort of button
-			// Will create a chatconvo
+            newBox.turnOn();
 			btnNewButton = new JButton("Connect to IP");
 			btnNewButton.addActionListener(this);
 			m_p2pConvo = new ChatConvo(m_username);
@@ -92,10 +91,6 @@ public class ChatRoom extends JFrame implements ActionListener {
 		}
 
 		if (m_roomType.equalsIgnoreCase("mc")) {
-			// Some sort of button
-			// ChatConvo newConvo = new
-			// ChatConvo("169-231-93-247.wireless.ucsb.edu", 12321, "bob");
-			// switchConversation(newConvo);
 			btnNewButton = new JButton("Join Room");
 			btnNewButton.addActionListener(this);
 		}
@@ -327,8 +322,9 @@ public class ChatRoom extends JFrame implements ActionListener {
 
 	public void makeP2PConvo(String hostname) {
 		try {
-			newBox.turnOn();
 			m_p2pConvo.createSSLSocketConnection(hostname, DEFAULT_PORT);
+            newBox.turnOn();            
+            m_convoList.add(m_p2pConvo);
 		} catch (Exception e) {
 			System.out.println("Error connecting");
 			e.printStackTrace();
@@ -340,11 +336,12 @@ public class ChatRoom extends JFrame implements ActionListener {
 			ChatConvo newConvo = new ChatConvo(SERVER_IP, portNumber,
 					m_username);
 			switchConversation(newConvo);
+            m_convoList.add(newConvo);
 			newBox.turnOn();
 
 			// Recreate MapBox from the traceroute
-			internalFrame = new MapBox(newConvo.geoList);
-			internalFrame.setVisible(true);
+//			internalFrame = new MapBox(newConvo.geoList);
+//			internalFrame.setVisible(true);
 		} catch (Exception e) {
 			System.out.println("Error joining room");
 			e.printStackTrace();
@@ -366,7 +363,7 @@ public class ChatRoom extends JFrame implements ActionListener {
 		}
 		if (m_roomType.equals("mc")) {
 			String message = JOptionPane.showInputDialog(null,
-					"Enter Room Number (8000 - 10000): ");
+					"Enter Room Number (Only 50505 Works as of now): ");
 			int roomNum = Integer.parseInt(message);
 			makeMCConvo(roomNum);
 		}

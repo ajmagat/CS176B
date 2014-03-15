@@ -40,7 +40,6 @@ public class ChatServerListener implements Runnable {
 				m_inStream.readFully(msgType);
 				String str = new String(msgType, "UTF-8");
 
-				System.out.println("The type is " + str);
 				// Receiving message
 				if (str.equals("1")) {
 					// Get the text parameters for this object

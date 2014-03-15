@@ -85,11 +85,8 @@ public class ChatThread extends Thread {
                     synchronized (this) {
                         m_connections = m_server.getThreads();
                         for (int c = 0; c < m_connections.length; c++) {
-                            System.out.println("TRYING TO SEND TO CONNECTION #"
-                                    + c);
                             if (m_connections[c] != null
                                     && m_connections[c] != this) {
-                                System.out.println("AYE SENDING SHIT");
                                 // broadcast message
                                 m_connections[c].m_outStream.write(fullMessage);
 
@@ -99,7 +96,7 @@ public class ChatThread extends Thread {
                 }
                 
                 if (str.equals("9"))
-                {System.out.println("HERE I AM OCKINFSDAF");
+                {
                     break;
                 }
                 
@@ -110,7 +107,6 @@ public class ChatThread extends Thread {
             // send error to client
             try
             {
-                System.out.println("START CLOSING =========================");
                 m_outStream.close();
                 m_inStream.close();
                 m_clientSock.close();
@@ -124,7 +120,6 @@ public class ChatThread extends Thread {
                         }
                     }
                 }
-                System.out.println("END CLOSING ============================");
             }
             catch (Exception e2)
             {
