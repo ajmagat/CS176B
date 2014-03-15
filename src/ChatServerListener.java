@@ -5,7 +5,9 @@ import java.net.*;
 import java.awt.Color;
 import java.io.*;
 
-// This class will take a socket and listen for all incoming messages
+/**
+ *  This class will take a socket and listen for all incoming messages
+ */
 public class ChatServerListener implements Runnable {
 	private DataInputStream m_inStream;
 	private StyledDocument m_chatConvo;
@@ -112,6 +114,9 @@ public class ChatServerListener implements Runnable {
 		}
 	}
 
+	/**
+	 * Helper method to return a color based on the byte from the message
+	 */
 	private Color getColorFromCode(String colorCode) {
 		if (colorCode.equals("0")) {
 			return Color.BLACK;

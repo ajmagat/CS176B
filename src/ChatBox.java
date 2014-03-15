@@ -224,7 +224,6 @@ public class ChatBox extends JPanel {
 	 * Method to submit text from input area
 	 */
 	public void submitInputText() {
-		System.out.println("DOING STUFF HERE");
 		// Get text from text field
 		String text = m_inputArea.getText() + newline;
 
@@ -293,7 +292,6 @@ public class ChatBox extends JPanel {
 
 		// Create message header as string
 		String msgHeaderStr = msgHeader.toString();
-		System.out.println("I SAY " + msgHeaderStr);
 		m_currentConvo.sendMessage(msgHeaderStr, text);
 
 		// Insert the text into the client's viewing area

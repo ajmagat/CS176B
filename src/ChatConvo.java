@@ -54,6 +54,7 @@ public class ChatConvo {
 	// SSL socket representing outgoing connection
 	private SSLSocket m_sslSendSock;
 
+	// Create an SSLSocketFactory 
 	private SSLSocketFactory m_sslFactory;
 
 	// Output stream to send response to outgoing connection
@@ -123,6 +124,9 @@ public class ChatConvo {
 		}
 	}
 
+	/**
+	 * Method to create an SSL connection to a given hostname with port 'port'
+	 */
 	public void createSSLSocketConnection(String hostname, int port) {
 		try {
 			SSLContext context = SSLContext.getInstance("TLS");
@@ -160,7 +164,7 @@ public class ChatConvo {
 						Certificate checkCert = ks.getCertificate(ipAlias);
 
 						if (checkCert == null) {
-							// Custom button text
+							// Custom button text, gotten from Oracle tutorials
 							Object[] options = { "Yes", "No" };
 							int n = JOptionPane
 									.showOptionDialog(
@@ -232,8 +236,10 @@ public class ChatConvo {
 			 * geoList.add(new GeoPosition(locList.get(j).latitude,
 			 * locList.get(j).longitude)); }
 			 */
+			
 			// Get the output stream of the data socket
 			m_outStream = new DataOutputStream(m_sslSendSock.getOutputStream());
+			
 			// Create a thread that will listen for messages from the server
 			ChatServerListener listener = new ChatServerListener(m_sslSendSock,
 					m_chatConvo);
@@ -268,18 +274,10 @@ public class ChatConvo {
 	 * Method to send message to server
 	 */
 	public void sendMessage(String header, String message) {
-		// Split up the message according to self defined protocol (10 byte
-		// length limit)
-		// String[] messages = splitMessage(message);
-
-		// Create string builder to hold the message
 		StringBuilder messageBuilder = new StringBuilder();
 
-		// Create message
-		// for(int i = 0; i < messages.length; i++)
-		// {
 		messageBuilder.append(header);
-		// messageBuilder.append(messages[i]);
+
 		messageBuilder.append(message);
 		// }
 
@@ -293,38 +291,6 @@ public class ChatConvo {
 		} catch (IOException e) {
 			System.out.println("Unsupported encoding\n " + e);
 		}
-	}
-
-	/**
-	 * Private method to split message depending on size
-	 */
-	private String[] splitMessage(String message) {
-		// Get length of message
-		int msgLen = message.length();
-
-		// Find how many times message should be split
-		int msgSplits = msgLen / HEADER_SIZE;
-		if (msgLen % HEADER_SIZE != 0) {
-			msgSplits++;
-		}
-
-		// Create array of strings to hold message partitions
-		String[] messagePartitions = new String[msgSplits];
-
-		// Fill up array
-		int begin = 0;
-		int end = msgLen;
-		for (int i = 0; i < msgSplits; i++) {
-			if (i < (msgSplits - 1)) {
-				messagePartitions[i] = message.substring(begin, end);
-				begin += msgLen;
-				end += msgLen;
-			} else {
-				messagePartitions[i] = message.substring(begin);
-			}
-		}
-
-		return messagePartitions;
 	}
 
 	/**

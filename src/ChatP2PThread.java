@@ -12,6 +12,9 @@ public class ChatP2PThread implements Runnable {
 	private ChatConvo m_convo;
 	private static final int MAX_CONNECTIONS = 1;
 
+	/**
+	 * Default Constructor
+	 */
 	public ChatP2PThread() {
 		m_outStream = null;
 		m_inStream = null;
@@ -19,6 +22,9 @@ public class ChatP2PThread implements Runnable {
 		m_convo = null;
 	}
 
+	/**
+	 * Constructor that takes in a server socket and a chat convo
+	 */
 	public ChatP2PThread(SSLServerSocket ss, ChatConvo convo) {
 		m_outStream = null;
 		m_inStream = null;
@@ -30,17 +36,18 @@ public class ChatP2PThread implements Runnable {
 	public void run() {
 		int connection_count = 0;
 
+		// Run for life of server socket
 		while (true) {
+			// Create a null socket
 			Socket s = null;
 			try {
 				// Wait for a connection and accept
 				s = m_sSock.accept();
 				if (connection_count >= MAX_CONNECTIONS) {
-					// tell user we can't accept them
+					// TODO tell user we can't accept them
 
 					// Close socket
 					s.close();
-
 				}
 
 				// Create a thread that will listen for messages from the other
@@ -60,15 +67,7 @@ public class ChatP2PThread implements Runnable {
 			} catch (Exception e) {
 				System.out.println("Connection cannot be established\n" + e);
 			}
-            finally {
-                try {
-                    m_sSock.close();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
+ 
 		}
 	}
 }

@@ -31,8 +31,10 @@ public class CertificateMaker {
 			Security.addProvider(new BouncyCastleProvider());
 
 			// Date of start of certificate and expiration date of certificate
+			// Starts the day before creation
 			Date startDate = new Date(System.currentTimeMillis() - 24 * 60 * 60
 					* 1000);
+			// Ends a year from the day of creation
 			Date endDate = new Date(System.currentTimeMillis() + 365 * 24 * 60
 					* 60 * 1000);
 

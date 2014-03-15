@@ -26,7 +26,6 @@ import javax.swing.JButton;
 /**
  * This represents the overall chat applications
  */
-
 public class ChatRoom extends JFrame implements ActionListener {
 	private static final int NUM_PIXELS = 600;
 	private static final String SERVER_IP = "169-231-93-247.wireless.ucsb.edu";
@@ -69,7 +68,7 @@ public class ChatRoom extends JFrame implements ActionListener {
 		internalFrame = new MapBox();
 		m_convoList = new ArrayList<ChatConvo>();
 
-		// Set some box related stuff
+		// Set some box related stuff such as title
 		setTitle("ChatRoom");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(694, 600);
@@ -82,6 +81,8 @@ public class ChatRoom extends JFrame implements ActionListener {
 
 		internalFrame.setVisible(true);
 		JButton btnNewButton = new JButton();
+		
+		// Set up the chat room based on room type
 		if (m_roomType.equalsIgnoreCase("p2p")) {
             newBox.turnOn();
 			btnNewButton = new JButton("Connect to IP");
@@ -279,36 +280,10 @@ public class ChatRoom extends JFrame implements ActionListener {
 		getContentPane().setLayout(groupLayout);
 		setVisible(true);
 		/*************************************************/
-		/**** GUI STUFF DO NOT TOUCH ****/
+		/**** GUI STUFF DO NOT TOUCH                  ****/
 		/*************************************************/
 
 		this.getRootPane().setDefaultButton(btnSubmit.getButton());
-
-		/*
-		 * try { ChatConvo newConvo = new
-		 * ChatConvo("169-231-93-247.wireless.ucsb.edu", 12321, "bob");
-		 * System.out.println(InetAddress.getLocalHost().getHostName());
-		 * switchConversation(newConvo);
-		 * 
-		 * <<<<<<< HEAD // Recreate MapBox from the traceroute internalFrame =
-		 * new MapBox(newConvo.geoList); internalFrame.setVisible(true);
-		 * 
-		 * String test = "555";
-		 * 
-		 * final byte[] inBytes = test.getBytes("UTF-8");
-		 * System.out.println("Size in bytes " + inBytes.length); for (byte b :
-		 * inBytes) { System.out.println("Byte: " + b); } String str = new
-		 * String(inBytes, "UTF-8"); System.out.println("Bytes back to string: "
-		 * + str); ======= >>>>>>> 847d04af708c57fa28facc005429b708beb177f5 }
-		 * catch (IOException e) { System.out.println(e); }
-		 */
-		/*
-		 * this.addWindowListener( new java.awt.event.WindowAdapter() { public
-		 * void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		 * closeAllConnections(); System.exit(0); }
-		 * 
-		 * });
-		 */
 	}
 
 	/**
@@ -320,23 +295,27 @@ public class ChatRoom extends JFrame implements ActionListener {
 		newBox.setChatConvo(newConvo);
 	}
 
+	/**
+	 * Method that will aid in the creation of a P2P Convo
+	 */
 	public void makeP2PConvo(String hostname) {
 		try {
 			m_p2pConvo.createSSLSocketConnection(hostname, DEFAULT_PORT);
             newBox.turnOn();            
-            m_convoList.add(m_p2pConvo);
 		} catch (Exception e) {
 			System.out.println("Error connecting");
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Method that will aid in the creation of a client server Convo
+	 */
 	public void makeMCConvo(int portNumber) {
 		try {
 			ChatConvo newConvo = new ChatConvo(SERVER_IP, portNumber,
 					m_username);
 			switchConversation(newConvo);
-            m_convoList.add(newConvo);
 			newBox.turnOn();
 
 			// Recreate MapBox from the traceroute
@@ -348,6 +327,9 @@ public class ChatRoom extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * Method to close all connections
+	 */
 	public void closeAllConnections() {
 		for (ChatConvo c : m_convoList) {
 			c.closeConvo();
